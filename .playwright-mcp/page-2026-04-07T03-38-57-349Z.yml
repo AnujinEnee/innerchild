@@ -1,0 +1,466 @@
+- generic [active] [ref=e1]:
+  - img:
+    - generic:
+      - generic:
+        - img
+      - generic:
+        - img
+      - generic:
+        - img
+      - generic:
+        - img
+      - generic:
+        - img
+      - generic:
+        - img
+      - generic:
+        - img
+      - generic:
+        - img
+      - generic:
+        - img
+      - generic:
+        - img
+      - generic:
+        - img
+      - generic:
+        - img
+      - generic:
+        - img
+      - generic:
+        - img
+      - generic:
+        - img
+      - generic:
+        - img
+      - generic:
+        - img
+      - generic:
+        - img
+      - generic:
+        - img
+      - generic:
+        - img
+      - generic:
+        - img
+      - generic:
+        - img
+      - generic:
+        - img
+      - generic:
+        - img
+      - generic:
+        - img
+      - generic:
+        - img
+      - generic:
+        - img
+      - generic:
+        - img
+      - generic:
+        - img
+      - generic:
+        - img
+      - generic:
+        - img
+      - generic:
+        - img
+      - generic:
+        - img
+      - generic:
+        - img
+  - banner [ref=e2]:
+    - link "Skip to content" [ref=e3] [cursor=pointer]:
+      - /url: "#skip-to-content"
+    - link "Visit Verywell Mind's homepage" [ref=e4] [cursor=pointer]:
+      - /url: /
+      - img [ref=e5]
+    - generic [ref=e8]:
+      - list [ref=e9]:
+        - listitem [ref=e10]:
+          - link "Conditions A-Z" [ref=e12] [cursor=pointer]:
+            - /url: https://www.verywellmind.com/conditions-a-z-4797402
+        - listitem [ref=e13]:
+          - link "Therapy" [ref=e15] [cursor=pointer]:
+            - /url: https://www.verywellmind.com/therapy-4581775
+        - listitem [ref=e16]:
+          - link "Living Well" [ref=e18] [cursor=pointer]:
+            - /url: https://www.verywellmind.com/living-well-7510832
+        - listitem [ref=e19]:
+          - link "Relationships" [ref=e21] [cursor=pointer]:
+            - /url: https://www.verywellmind.com/relationships-4157190
+        - listitem [ref=e22]:
+          - link "Psychology" [ref=e24] [cursor=pointer]:
+            - /url: https://www.verywellmind.com/psychology-4157187
+        - listitem [ref=e25]:
+          - link "Trending" [ref=e27] [cursor=pointer]:
+            - /url: https://www.verywellmind.com/news-latest-research-and-trending-topics-4846421
+        - listitem [ref=e28]:
+          - link "About Us" [ref=e30] [cursor=pointer]:
+            - /url: /about-us-5184564
+      - button "Search" [ref=e32] [cursor=pointer]:
+        - generic [ref=e33]: Search
+        - img [ref=e34]
+  - main [ref=e39]:
+    - article [ref=e40]:
+      - generic [ref=e41]:
+        - heading "What Type of Friend Are You? Take This Quiz to Find Out" [level=1] [ref=e42]
+        - paragraph [ref=e43]: See which friend profile matches you best
+        - generic [ref=e46]:
+          - generic [ref=e47]:
+            - text: By
+            - generic [ref=e48] [cursor=pointer]:
+              - link "Sanjana Gupta" [ref=e49]:
+                - /url: https://www.verywellmind.com/sanjana-gupta-5188040
+              - text: .
+          - text: Updated on March 30, 2026
+      - figure [ref=e51]:
+        - 'figure "Credit: Anchiy / E+ / Getty Images" [ref=e53]':
+          - img "Friends and family having garden dinner party in the summer" [ref=e56]
+          - generic [ref=e58]:
+            - text: "Credit:"
+            - paragraph [ref=e59]: Anchiy / E+ / Getty Images
+      - generic [ref=e64]:
+        - generic [ref=e65]: Table of Contents
+        - list [ref=e66]:
+          - listitem [ref=e67]:
+            - link "The Friendship Quiz" [ref=e69] [cursor=pointer]:
+              - /url: "#toc-the-friendship-quiz"
+          - listitem [ref=e70]:
+            - link "Who Is This Quiz For?" [ref=e72] [cursor=pointer]:
+              - /url: "#toc-who-is-this-quiz-for"
+          - listitem [ref=e73]:
+            - link "The Different Types of Friends" [ref=e75] [cursor=pointer]:
+              - /url: "#toc-the-different-types-of-friends"
+          - listitem [ref=e76]:
+            - link "Why It’s Important to Know What Kind of Friend You Are" [ref=e78] [cursor=pointer]:
+              - /url: "#toc-why-its-important-to-know-what-kind-of-friend-you-are"
+      - generic [ref=e79]:
+        - generic [ref=e80]:
+          - generic [ref=e81]:
+            - heading "Key Takeaways" [level=3] [ref=e82]
+            - list [ref=e84]:
+              - listitem [ref=e85]: Friends often play roles such as planning activities, offering support, bringing laughter, and encouraging everyone to have fun.
+              - listitem [ref=e86]: Knowing your friend role can help you strengthen your friendships and improve your connections.
+              - listitem [ref=e87]: Understanding your type can boost your self-awareness and confidence.
+          - paragraph [ref=e88]:
+            - text: Have you ever wondered what kind of
+            - link "friend" [ref=e89] [cursor=pointer]:
+              - /url: https://www.verywellmind.com/the-types-of-friendship-7975881
+            - text: you are in your circle? We all play different roles in our relationships with others and sometimes it's fun to think about how our friends see us.
+          - paragraph [ref=e90]:
+            - text: Understanding your role as a friend profoundly influences the dynamics of your friendships, says
+            - link "Ashley Peña" [ref=e91] [cursor=pointer]:
+              - /url: https://missionconnectionhealthcare.com/our-staff/
+            - text: ", LCSW, National Executive Director of Outpatient Services at AMFM Healthcare."
+          - paragraph [ref=e92]: That's why we've created this free quiz—take it to find out what kind of friend you are.
+          - heading "The Friendship Quiz" [level=2] [ref=e93]
+          - paragraph [ref=e94]: This quiz helps you identify what type of friend you are.
+          - paragraph [ref=e95]: If multiple answers resonate, choose the one that reflects the most likely scenario.
+          - iframe [ref=e97]:
+            
+          - heading "Who Is This Quiz For?" [level=2] [ref=e98]
+          - paragraph [ref=e99]:
+            - text: Ever wondered why your friends appreciate you? This quiz can help you discover your strengths as a friend. If you're reflecting on your relationships, it can help you understand your role in your friends' lives. Research shows that increased
+            - link "self-aware" [ref=e100] [cursor=pointer]:
+              - /url: https://www.verywellmind.com/what-is-self-awareness-2795023
+            - text: can improve relationship quality.[1]
+          - generic [ref=e101]:
+            - text: “
+            - generic [ref=e102]:
+              - paragraph [ref=e104]: Understanding your role as a friend profoundly influences the dynamics of your friendships.”
+              - generic [ref=e106]: — ASHLEY PEÑA, LCSW
+          - heading "The Different Types of Friends" [level=2] [ref=e107]
+          - paragraph [ref=e108]: "These are some of the friendship roles you might play:"
+          - list [ref=e109]:
+            - listitem [ref=e110]:
+              - strong [ref=e111]: "The Planner:"
+              - text: Planning events for a group with diverse personalities and interests can be challenging. Every group benefits from an organizer who can keep everything on track.
+            - listitem [ref=e112]:
+              - strong [ref=e113]: "The Supportive Listener:"
+              - text: During tough times, a friend with
+              - link "empathy" [ref=e114] [cursor=pointer]:
+                - /url: https://www.verywellmind.com/how-to-be-more-empathetic-6455878
+              - text: is invaluable. This friend helps navigate life's ups and downs and provides a shoulder to lean on, sometimes at the cost of their own comfort.
+            - listitem [ref=e115]:
+              - strong [ref=e116]: "The Comic Relief:"
+              - text: This friend knows how to make everyone laugh. Their jokes and funny stories lighten the mood and bring joy, regardless of the circumstances.
+            - listitem [ref=e117]:
+              - strong [ref=e118]: "The Life of the Party:"
+              - text: Sometimes, a friend who
+              - link "energizes the group" [ref=e119] [cursor=pointer]:
+                - /url: https://www.verywellmind.com/a-guide-to-mixing-friend-groups-11693587
+              - text: is needed. This extrovert ensures everyone is having fun, whether out on the town or staying in.
+          - generic [ref=e120]:
+            - text: "Related:"
+            - link "50 Deep Questions to Ask Your Friends" [ref=e121] [cursor=pointer]:
+              - /url: https://www.verywellmind.com/deep-questions-to-ask-your-friends-8557231
+          - heading "Why It’s Important to Know What Kind of Friend You Are" [level=2] [ref=e122]
+          - paragraph [ref=e123]: "Knowing your type of friendship can be beneficial for:"
+          - list [ref=e124]:
+            - listitem [ref=e125]:
+              - strong [ref=e126]: "Strengthening Friendships:"
+              - text: Reflecting on your
+              - link "strengths" [ref=e127] [cursor=pointer]:
+                - /url: https://www.verywellmind.com/what-are-character-strengths-4843090
+              - text: and weaknesses helps you improve connections with friends.
+            - listitem [ref=e128]:
+              - strong [ref=e129]: "Forming New Bonds:"
+              - text: Understanding your personality and what you value in friendships can help you find like-minded individuals, as people with similar personalities often connect better.[2]
+            - listitem [ref=e130]:
+              - strong [ref=e131]: "Increasing Self-Awareness:"
+              - text: Recognizing how you participate in friendships can reveal new aspects of your personality, benefiting many areas of your life.
+            - listitem [ref=e132]:
+              - strong [ref=e133]: "Boosting Confidence:"
+              - text: Understanding the strengths you bring to friendships can increase your confidence, helping you recognize your value to others.
+          - generic [ref=e134]:
+            - text: “
+            - generic [ref=e135]:
+              - paragraph [ref=e137]: Friendship, like any relationship, requires mutual effort and understanding between people. Being aware of how you contribute strengthens the bond and fosters openness and connection.”
+              - generic [ref=e139]: — ASHLEY PEÑA, LCSW
+          - generic [ref=e140]:
+            - text: "Read Next:"
+            - link "6 Benefits of Friendship and Why It's So Important to Stay Close" [ref=e141] [cursor=pointer]:
+              - /url: https://www.verywellmind.com/the-importance-of-friendship-3024371
+        - generic [ref=e142]:
+          - generic [ref=e143]:
+            - generic [ref=e144]: "Read more:"
+            - list [ref=e145]:
+              - listitem [ref=e146]:
+                - link "Living Well" [ref=e147] [cursor=pointer]:
+                  - /url: https://www.verywellmind.com/living-well-7510832
+              - listitem [ref=e148]:
+                - link "Relationships" [ref=e149] [cursor=pointer]:
+                  - /url: https://www.verywellmind.com/relationships-4157190
+          - generic [ref=e153]:
+            - generic [ref=e154] [cursor=pointer]: 2 Sources
+            - img [ref=e155] [cursor=pointer]
+          - generic [ref=e157]:
+            - img "Sanjana Gupta Bio Photo" [ref=e159]
+            - paragraph [ref=e160]:
+              - generic [ref=e161]:
+                - text: By
+                - link "Sanjana Gupta" [ref=e162] [cursor=pointer]:
+                  - /url: https://www.verywellmind.com/sanjana-gupta-5188040
+              - text: Sanjana is a health writer and editor. Her work spans various health-related topics, including mental health, fitness, nutrition, and wellness.
+          - generic [ref=e164]:
+            - generic [ref=e165]:
+              - generic [ref=e166]:
+                - img [ref=e167]
+                - link "See Our Editorial Process" [ref=e169] [cursor=pointer]:
+                  - /url: /our-editorial-process-4778006
+              - generic [ref=e170]:
+                - img [ref=e171]
+                - link "Meet Our Review Board" [ref=e173] [cursor=pointer]:
+                  - /url: /review-board-4796494
+            - generic [ref=e175]:
+              - img [ref=e176]
+              - button "Share Feedback" [ref=e178] [cursor=pointer]
+    - generic [ref=e205]:
+      - generic [ref=e206]:
+        - generic [ref=e207]: Related Articles
+        - generic [ref=e208]:
+          - link "depressed hispanic girl with sad emotions and feelings Relationships How to Cope With Friends Moving Away By Barbara Field" [ref=e209] [cursor=pointer]:
+            - /url: https://www.verywellmind.com/how-to-cope-with-friends-moving-away-5675826
+            - img "depressed hispanic girl with sad emotions and feelings" [ref=e212]
+            - generic [ref=e213]:
+              - text: Relationships
+              - generic [ref=e214]: How to Cope With Friends Moving Away
+              - generic [ref=e215]: By Barbara Field
+          - link "Man flirting with other woman in holiday villa Relationships Help! I Hate My Best Friend's Partner By Ariane Resnick, CNC" [ref=e216] [cursor=pointer]:
+            - /url: https://www.verywellmind.com/help-i-hate-my-best-friends-partner-7852467
+            - img "Man flirting with other woman in holiday villa" [ref=e219]
+            - generic [ref=e220]:
+              - text: Relationships
+              - generic [ref=e221]: Help! I Hate My Best Friend's Partner
+              - generic [ref=e222]: By Ariane Resnick, CNC
+          - link "A conceptual image depicting hands shaking but being cut apart with scissors Relationships What Happens in Your Brain After a Friendship Breakup? Medically reviewed by Shaheen Lakhan, MD, PhD, FAAN" [ref=e223] [cursor=pointer]:
+            - /url: https://www.verywellmind.com/what-happens-in-your-brain-after-a-friendship-breakup-11935755
+            - img "A conceptual image depicting hands shaking but being cut apart with scissors" [ref=e226]
+            - generic [ref=e227]:
+              - text: Relationships
+              - generic [ref=e228]: What Happens in Your Brain After a Friendship Breakup?
+              - generic [ref=e229]: Medically reviewed by Shaheen Lakhan, MD, PhD, FAAN
+          - link "Two happy female friends embracing on the beach Relationships How the 4 Types of Friendship Fit Into Your Life By Sanjana Gupta" [ref=e230] [cursor=pointer]:
+            - /url: https://www.verywellmind.com/the-types-of-friendship-7975881
+            - img "Two happy female friends embracing on the beach" [ref=e233]
+            - generic [ref=e234]:
+              - text: Relationships
+              - generic [ref=e235]: How the 4 Types of Friendship Fit Into Your Life
+              - generic [ref=e236]: By Sanjana Gupta
+          - link "Two sullen young friends sitting on breezy beach Relationships 10 Signs of a Toxic Friend (and How to Break Up With Them the Right Way) By Ariane Resnick, CNC" [ref=e237] [cursor=pointer]:
+            - /url: https://www.verywellmind.com/signs-of-a-toxic-friend-8430982
+            - img "Two sullen young friends sitting on breezy beach" [ref=e240]
+            - generic [ref=e241]:
+              - text: Relationships
+              - generic [ref=e242]: 10 Signs of a Toxic Friend (and How to Break Up With Them the Right Way)
+              - generic [ref=e243]: By Ariane Resnick, CNC
+          - link "Upset couple sitting on opposite sides of the couch Quizzes Am I Being Gaslighted? Take the Quiz Medically reviewed by Ivy Kwong, LMFT" [ref=e244] [cursor=pointer]:
+            - /url: https://www.verywellmind.com/am-i-being-gaslighted-7562452
+            - img "Upset couple sitting on opposite sides of the couch" [ref=e247]
+            - generic [ref=e248]:
+              - text: Quizzes
+              - generic [ref=e249]: Am I Being Gaslighted? Take the Quiz
+              - generic [ref=e250]: Medically reviewed by Ivy Kwong, LMFT
+          - link "Two women relaxing at home, one texting on phone, young woman sitting beside her looking and waiting Relationships 6 Ways to Tell Someone They're Being a Bad Friend, According to Therapists By Kendra Cherry, MSEd" [ref=e251] [cursor=pointer]:
+            - /url: https://www.verywellmind.com/6-ways-to-tell-someone-they-re-being-a-bad-friend-8780436
+            - img "Two women relaxing at home, one texting on phone, young woman sitting beside her looking and waiting" [ref=e254]
+            - generic [ref=e255]:
+              - text: Relationships
+              - generic [ref=e256]: 6 Ways to Tell Someone They're Being a Bad Friend, According to Therapists
+              - generic [ref=e257]: By Kendra Cherry, MSEd
+          - link "A mature, loving couple is looking at each other lying on a hotel bed. They seem to be in love as the woman smiles gladly at her partner. In the background, dark furniture and a green wallpaper can be seen. Relationships When to Say \"I Love You\" for the First Time, According to the Experts By Wendy Rose Gould" [ref=e258] [cursor=pointer]:
+            - /url: https://www.verywellmind.com/when-to-say-i-love-you-for-the-first-time-according-to-the-experts-7556294
+            - img "A mature, loving couple is looking at each other lying on a hotel bed. They seem to be in love as the woman smiles gladly at her partner. In the background, dark furniture and a green wallpaper can be seen." [ref=e261]
+            - generic [ref=e262]:
+              - text: Relationships
+              - generic [ref=e263]: When to Say "I Love You" for the First Time, According to the Experts
+              - generic [ref=e264]: By Wendy Rose Gould
+      - generic [ref=e268]:
+        - 'link "Domestic lifestyle with two lesbian women at home eating breakfast, partner chatting on mobile telephone. Young woman being ignored by her girlfriend and feeling jealous Relationships 10 Signs of a Fake Friend: How to Spot One From a Mile Away By Sanjana Gupta" [ref=e269] [cursor=pointer]':
+          - /url: https://www.verywellmind.com/signs-of-a-fake-friend-7775483
+          - img "Domestic lifestyle with two lesbian women at home eating breakfast, partner chatting on mobile telephone. Young woman being ignored by her girlfriend and feeling jealous" [ref=e272]
+          - generic [ref=e273]:
+            - text: Relationships
+            - generic [ref=e274]: "10 Signs of a Fake Friend: How to Spot One From a Mile Away"
+            - generic [ref=e275]: By Sanjana Gupta
+        - link "mean girls movie with purple background Relationships Is Your Friend Sabotaging You? Watch Out For These Red Flags Reviewed by Rachel Goldman, PhD, FTOS" [ref=e276] [cursor=pointer]:
+          - /url: https://www.verywellmind.com/signs-a-friend-is-sabotaging-you-8708885
+          - img "mean girls movie with purple background" [ref=e279]
+          - generic [ref=e280]:
+            - text: Relationships
+            - generic [ref=e281]: Is Your Friend Sabotaging You? Watch Out For These Red Flags
+            - generic [ref=e282]: Reviewed by Rachel Goldman, PhD, FTOS
+        - link "Young couple having fun holding each-other in a desert Oasis Relationships How Do You Know if It’s Love or Just Infatuation? By Barbara Field" [ref=e283] [cursor=pointer]:
+          - /url: https://www.verywellmind.com/infatuation-vs-love-7372960
+          - img "Young couple having fun holding each-other in a desert Oasis" [ref=e286]
+          - generic [ref=e287]:
+            - text: Relationships
+            - generic [ref=e288]: How Do You Know if It’s Love or Just Infatuation?
+            - generic [ref=e289]: By Barbara Field
+        - link "Couple about to kiss. Quizzes Are You Ready for a Relationship? Take the Quiz and Find Out By Rena Goldman" [ref=e290] [cursor=pointer]:
+          - /url: https://www.verywellmind.com/relationship-quiz-7562457
+          - img "Couple about to kiss." [ref=e293]
+          - generic [ref=e294]:
+            - text: Quizzes
+            - generic [ref=e295]: Are You Ready for a Relationship? Take the Quiz and Find Out
+            - generic [ref=e296]: By Rena Goldman
+        - link "Unhealthy relationship Relationships Signs You Might Be In an Unhealthy Relationship, And What to Do By Kendra Cherry, MSEd" [ref=e297] [cursor=pointer]:
+          - /url: https://www.verywellmind.com/signs-that-youre-in-an-unhealthy-relationship-5218237
+          - img "Unhealthy relationship" [ref=e300]
+          - generic [ref=e301]:
+            - text: Relationships
+            - generic [ref=e302]: Signs You Might Be In an Unhealthy Relationship, And What to Do
+            - generic [ref=e303]: By Kendra Cherry, MSEd
+        - link "Physical touch love language Relationships Is Physical Touch Your Love Language? What it Means and Why It Matters Reviewed by Amy Morin, LCSW" [ref=e304] [cursor=pointer]:
+          - /url: https://www.verywellmind.com/physical-touch-love-language-4797513
+          - img "Physical touch love language" [ref=e307]
+          - generic [ref=e308]:
+            - text: Relationships
+            - generic [ref=e309]: Is Physical Touch Your Love Language? What it Means and Why It Matters
+            - generic [ref=e310]: Reviewed by Amy Morin, LCSW
+        - link "lesbian couple laughing Relationships Navigating the 4 Stages of a Relationship Reviewed by Carly Snyder, MD" [ref=e311] [cursor=pointer]:
+          - /url: https://www.verywellmind.com/the-four-stages-of-relationships-4163472
+          - img "lesbian couple laughing" [ref=e314]
+          - generic [ref=e315]:
+            - text: Relationships
+            - generic [ref=e316]: Navigating the 4 Stages of a Relationship
+            - generic [ref=e317]: Reviewed by Carly Snyder, MD
+        - 'link "Woman looking at man, smiling. Both of them enjoying hanging out with each other Relationships Unpacking the 36 Questions That Lead to Love: Why and How They Work By Kendra Cherry, MSEd" [ref=e318] [cursor=pointer]':
+          - /url: https://www.verywellmind.com/unpacking-the-36-questions-that-lead-to-love-8559179
+          - img "Woman looking at man, smiling. Both of them enjoying hanging out with each other" [ref=e321]
+          - generic [ref=e322]:
+            - text: Relationships
+            - generic [ref=e323]: "Unpacking the 36 Questions That Lead to Love: Why and How They Work"
+            - generic [ref=e324]: By Kendra Cherry, MSEd
+  - contentinfo [ref=e327]:
+    - generic [ref=e328]:
+      - link "Visit Verywell Mind's homepage" [ref=e330] [cursor=pointer]:
+        - /url: /
+        - img [ref=e331]
+      - generic [ref=e335]:
+        - generic [ref=e336]: Daily Tips for a Healthy Mind to Your Inbox
+        - paragraph
+        - generic [ref=e338]:
+          - textbox "Enter your email" [ref=e339]
+          - button "Sign Up" [ref=e340] [cursor=pointer]
+      - navigation [ref=e341]:
+        - list [ref=e342]:
+          - listitem [ref=e343]:
+            - link "Conditions A-Z" [ref=e344] [cursor=pointer]:
+              - /url: https://www.verywellmind.com/conditions-a-z-4797402
+          - listitem [ref=e345]:
+            - link "Therapy" [ref=e346] [cursor=pointer]:
+              - /url: https://www.verywellmind.com/therapy-4581775
+          - listitem [ref=e347]:
+            - link "Living Well" [ref=e348] [cursor=pointer]:
+              - /url: https://www.verywellmind.com/living-well-7510832
+          - listitem [ref=e349]:
+            - link "Relationships" [ref=e350] [cursor=pointer]:
+              - /url: https://www.verywellmind.com/relationships-4157190
+          - listitem [ref=e351]:
+            - link "Psychology" [ref=e352] [cursor=pointer]:
+              - /url: https://www.verywellmind.com/psychology-4157187
+          - listitem [ref=e353]:
+            - link "Trending" [ref=e354] [cursor=pointer]:
+              - /url: https://www.verywellmind.com/news-latest-research-and-trending-topics-4846421
+      - list [ref=e355]:
+        - listitem [ref=e356]:
+          - link "Meet Our Review Board" [ref=e357] [cursor=pointer]:
+            - /url: /review-board-4796494
+        - listitem [ref=e358]:
+          - link "About Us" [ref=e359] [cursor=pointer]:
+            - /url: /about-us-5184564
+        - listitem [ref=e360]:
+          - link "Editorial Process" [ref=e361] [cursor=pointer]:
+            - /url: /our-editorial-process-4778006
+        - listitem [ref=e362]:
+          - link "Privacy Policy" [ref=e363] [cursor=pointer]:
+            - /url: https://www.people.inc/brands-privacy
+        - listitem [ref=e364]:
+          - link "In the News" [ref=e365] [cursor=pointer]:
+            - /url: /in-the-news-4782525
+        - listitem [ref=e366]:
+          - link "Advertise" [ref=e367] [cursor=pointer]:
+            - /url: https://www.people.inc/advertising
+        - listitem [ref=e368]:
+          - link "Terms of Service" [ref=e369] [cursor=pointer]:
+            - /url: https://www.people.inc/brands-termsofservice
+        - listitem [ref=e370]:
+          - link "Careers" [ref=e371] [cursor=pointer]:
+            - /url: https://www.people.inc/careers
+        - listitem [ref=e372]:
+          - link "Contact" [ref=e373] [cursor=pointer]:
+            - /url: /about-us-5184564#toc-contact-us
+        - listitem [ref=e374]:
+          - link "Crisis Support" [ref=e375] [cursor=pointer]:
+            - /url: /crisis-support-6666353
+      - generic [ref=e376]:
+        - generic [ref=e377]: Follow Us
+        - list [ref=e378]:
+          - listitem [ref=e379]:
+            - link "Visit Verywell Mind's Instagram" [ref=e380] [cursor=pointer]:
+              - /url: https://www.instagram.com/verywellmind/
+              - img [ref=e381]
+          - listitem [ref=e383]:
+            - link "Visit Verywell Mind's TikTok" [ref=e384] [cursor=pointer]:
+              - /url: https://www.tiktok.com/@verywellmind
+              - img [ref=e385]
+          - listitem [ref=e387]:
+            - link "Visit Verywell Mind's Facebook" [ref=e388] [cursor=pointer]:
+              - /url: https://www.facebook.com/verywell/
+              - img [ref=e389]
+          - listitem [ref=e391]:
+            - link "Visit Verywell Mind's Flipboard" [ref=e392] [cursor=pointer]:
+              - /url: https://flipboard.com/@VerywellMind
+              - img [ref=e393]
+      - generic [ref=e395]:
+        - generic [ref=e396]: Verywell Mind's content is for informational and educational purposes only. Our website is not intended to be a substitute for professional medical advice, diagnosis, or treatment.
+        - generic [ref=e397]: Ⓒ 2026 People Inc. — All rights reserved
+    - generic [ref=e399]:
+      - img [ref=e400]
+      - generic [ref=e403]:
+        - text: Verywell Mind is part of the
+        - link "People Inc." [ref=e404] [cursor=pointer]:
+          - /url: https://www.people.inc
+        - text: publishing family.
