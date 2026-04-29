@@ -96,12 +96,14 @@ function LuscherTest({ onComplete }: { onComplete: (first: number[], second: num
   // Star-tap mini-game state for the break screen.
   const [stars, setStars] = useState<Star[]>([]);
   const [score, setScore] = useState(0);
+  const [now, setNow] = useState(0);
   const starIdRef = useRef(0);
 
   // Break timer between round 1 and round 2.
   useEffect(() => {
     if (stage !== "break") return;
     if (breakSecondsLeft <= 0) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setStage("round2");
       return;
     }
@@ -137,9 +139,20 @@ function LuscherTest({ onComplete }: { onComplete: (first: number[], second: num
   // Reset mini-game state every time we enter "break".
   useEffect(() => {
     if (stage === "break") {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setStars([]);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setScore(0);
     }
+  }, [stage]);
+
+  // Tick clock during break so star fade animation updates.
+  useEffect(() => {
+    if (stage !== "break") return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setNow(Date.now());
+    const t = setInterval(() => setNow(Date.now()), 200);
+    return () => clearInterval(t);
   }, [stage]);
 
   function popStar(id: number) {
@@ -158,7 +171,7 @@ function LuscherTest({ onComplete }: { onComplete: (first: number[], second: num
         {/* Star-tap mini-game playground (overlay so taps reach stars on top of timer) */}
         <div className="pointer-events-none absolute inset-0 z-20">
           {stars.map((s) => {
-            const age = (Date.now() - s.born) / 5000; // 0..1
+            const age = (now - s.born) / 5000; // 0..1
             const baseOpacity = age < 0.15 ? age / 0.15 : age > 0.7 ? Math.max(0, 1 - (age - 0.7) / 0.3) : 1;
             const opacity = s.popping ? 0 : baseOpacity;
             const scale = s.popping ? 2.5 : 1;
