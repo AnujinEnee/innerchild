@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useTheme } from "./ThemeContext";
 import { createClient } from "@/lib/supabase/client";
+import { getSlugByDbTestId } from "@/lib/test-logics/registry";
 
 interface UserData {
   id: string;
@@ -42,6 +44,8 @@ interface TestResultRow {
   taken_at: string;
   conclusion: string | null;
   recommendation: string | null;
+  raw_answers: Record<string, unknown> | null;
+  test_id: string;
   tests: { title: string; category: string } | null;
 }
 
@@ -73,7 +77,27 @@ export default function ClientModal({
 }) {
   const { theme } = useTheme();
   const dark = theme === "dark";
+  const router = useRouter();
   const [tab, setTab] = useState<"info" | "tests" | "history">("info");
+
+  function openFullResult(t: TestResultRow) {
+    const slug = getSlugByDbTestId(t.test_id);
+    if (!slug) return;
+    // Pre-populate sessionStorage so the public result page can render
+    // the full rich UI from raw_answers (same flow as the user's own view).
+    try {
+      sessionStorage.setItem(
+        `test_result_${slug}`,
+        JSON.stringify({
+          answers: t.raw_answers ?? {},
+          duration: 0,
+          paid: true,
+          saved: true,
+        }),
+      );
+    } catch { /* ignore */ }
+    router.push(`/tests/${slug}/result?from=dashboard`);
+  }
   const [user, setUser] = useState<UserData | null>(null);
   const [consultations, setConsultations] = useState<ConsultationRow[]>([]);
   const [testResults, setTestResults] = useState<TestResultRow[]>([]);
@@ -97,7 +121,7 @@ export default function ClientModal({
           .order("time", { ascending: true }),
         supabase
           .from("test_results")
-          .select("id, score, max_score, level, taken_at, conclusion, recommendation, tests(title, category)")
+          .select("id, score, max_score, level, taken_at, conclusion, recommendation, raw_answers, test_id, tests(title, category)")
           .eq("client_id", userId)
           .order("taken_at", { ascending: false }),
       ]);
@@ -294,6 +318,19 @@ export default function ClientModal({
                               <p className={`mb-1 text-[10px] font-semibold uppercase tracking-wider ${dark ? "text-purple-400/50" : "text-purple-400"}`}>Зөвлөмж</p>
                               <p className={`text-sm leading-relaxed ${dark ? "text-purple-200/70" : "text-purple-700"}`}>{t.recommendation}</p>
                             </div>
+                          )}
+
+                          {/* Full result button */}
+                          {getSlugByDbTestId(t.test_id) && t.raw_answers && (
+                            <button
+                              onClick={() => openFullResult(t)}
+                              className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-linear-to-r from-pink-500 to-purple-500 px-4 py-2 text-xs font-semibold text-white transition-opacity hover:opacity-90"
+                            >
+                              Дэлгэрэнгүй харах
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="h-3 w-3">
+                                <path d="M5 12h14M12 5l7 7-7 7" />
+                              </svg>
+                            </button>
                           )}
                         </div>
                       );
