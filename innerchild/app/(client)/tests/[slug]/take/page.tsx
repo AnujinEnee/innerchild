@@ -97,22 +97,6 @@ function LuscherTest({ onComplete }: { onComplete: (first: number[], second: num
     const pct = ((LUSCHER_BREAK_SECONDS - breakSecondsLeft) / LUSCHER_BREAK_SECONDS) * 100;
     return (
       <div className="relative flex flex-col items-center gap-8 px-6 py-12 sm:py-16">
-
-        {/* Lotus / breathe icon */}
-        <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white/70 shadow-sm backdrop-blur sm:h-14 sm:w-14">
-          <svg viewBox="0 0 24 24" fill="none" stroke="url(#breath-grad)" strokeWidth="1.5" className="h-6 w-6 sm:h-7 sm:w-7">
-            <defs>
-              <linearGradient id="breath-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#ec4899" />
-                <stop offset="100%" stopColor="#a855f7" />
-              </linearGradient>
-            </defs>
-            <path d="M12 2c-2 4-4 6-4 9a4 4 0 0 0 8 0c0-3-2-5-4-9z" />
-            <path d="M5 14c-2 1-3 3-3 5a3 3 0 0 0 6 0" />
-            <path d="M19 14c2 1 3 3 3 5a3 3 0 0 1-6 0" />
-          </svg>
-        </div>
-
         <h3 className="relative z-10 bg-linear-to-r from-pink-500 via-fuchsia-500 to-purple-500 bg-clip-text text-center text-2xl font-bold text-transparent sm:text-3xl md:text-4xl">
           Богино завсарлага
         </h3>
