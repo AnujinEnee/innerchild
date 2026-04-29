@@ -6,6 +6,7 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { createClient } from "@/lib/supabase/client";
+import { stripHtml } from "@/lib/text-utils";
 
 interface Article {
   id: string;
@@ -146,7 +147,7 @@ export default function ArticlePage() {
     const hasHtml = raw.includes("<") && raw.includes(">");
     const processed = hasHtml
       ? raw.replace(/<h2[^>]*>(.*?)<\/h2>/gi, (_, text) => {
-          const clean = text.replace(/<[^>]*>/g, "").trim();
+          const clean = stripHtml(text);
           const base = clean.toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]/g, "") || "section";
           const hid = `${base}-${idx++}`;
           h.push({ id: hid, text: clean });
