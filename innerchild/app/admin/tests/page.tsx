@@ -6,6 +6,66 @@ import { createClient } from "@/lib/supabase/client";
 import { ALL_TESTS, getSlugByDbTestId } from "@/lib/test-logics/registry";
 import type { TestSlug } from "@/lib/test-logics/types";
 
+const ZAN_LABEL: Record<string, string> = {
+  hyperthymic: "Эрч хүчтэй",
+  dysthymic: "Гутрамтгай",
+  cyclothymic: "Солигдомтгой",
+  emotive: "Мэдрэмтгий",
+  demonstrative: "Сурталчламтгай",
+  stuck: "Гацамтгай хөшүүн",
+  pedantic: "Нягтламтгай",
+  anxious: "Түгшимтгий",
+  excitable: "Хөөрөмтгий",
+  irritable: "Цочромтгой",
+  validity: "Баталгаат чанар",
+};
+
+function formatConclusion(slug: TestSlug | undefined, raw: string | null): string {
+  if (!raw) return "";
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    return raw; // already plain text
+  }
+  if (!parsed || typeof parsed !== "object") return raw;
+  const obj = parsed as Record<string, unknown>;
+
+  switch (slug) {
+    case "anxiety": {
+      const s = obj as { stateTotal: number; stateMean: number; traitTotal: number; traitMean: number; stateBand: string; traitBand: string };
+      return `Нөхцөл байдлын түгшилт: ${s.stateBand} (нийт ${s.stateTotal}, дунджаар ${s.stateMean.toFixed(2)})\nБие хүний түгшилт: ${s.traitBand} (нийт ${s.traitTotal}, дунджаар ${s.traitMean.toFixed(2)})`;
+    }
+    case "ocd": {
+      const s = obj as { obsessionTotal: number; compulsionTotal: number };
+      return `Улигт бодол: ${s.obsessionTotal} оноо\nАлбадмал үйлдэл: ${s.compulsionTotal} оноо\nНийт: ${s.obsessionTotal + s.compulsionTotal} оноо`;
+    }
+    case "zan-tuluv": {
+      const scores = obj as Record<string, number>;
+      const sorted = Object.entries(scores)
+        .filter(([k]) => k !== "validity")
+        .sort((a, b) => b[1] - a[1]);
+      const lines = sorted.map(([k, v]) => `${ZAN_LABEL[k] ?? k}: ${v}`);
+      if (typeof scores.validity === "number") lines.push(`\nБаталгаат чанар: ${scores.validity}`);
+      return lines.join("\n");
+    }
+    case "luscher": {
+      const a = obj as { emotionalFlexibility?: string; stressLevel?: string; personalityTraits?: string[]; recommendations?: string[] };
+      const flex = a.emotionalFlexibility === "high" ? "Өндөр" : a.emotionalFlexibility === "medium" ? "Дунд" : a.emotionalFlexibility === "low" ? "Бага" : "—";
+      const stress = a.stressLevel === "high" ? "Өндөр" : a.stressLevel === "medium" ? "Дунд" : a.stressLevel === "low" ? "Бага" : "—";
+      const lines = [
+        `Сэтгэл хөдлөлийн уян хатан: ${flex}`,
+        `Стрессийн түвшин: ${stress}`,
+      ];
+      if (a.personalityTraits?.length) lines.push(`Зан чанар: ${a.personalityTraits.join(", ")}`);
+      if (a.recommendations?.length) lines.push(`\nЗөвлөмж:\n${a.recommendations.map((r) => `• ${r}`).join("\n")}`);
+      return lines.join("\n");
+    }
+    default:
+      return JSON.stringify(parsed, null, 2);
+  }
+}
+
 interface QuestionOption {
   id: string;
   label: string;
@@ -777,14 +837,7 @@ export default function TestsPage() {
                 <div>
                   <p className={`mb-1 text-[10px] uppercase tracking-wider ${dark ? "text-white/30" : "text-gray-400"}`}>Дүгнэлт</p>
                   <p className={`whitespace-pre-wrap text-sm leading-relaxed ${dark ? "text-white/70" : "text-gray-600"}`}>
-                    {(() => {
-                      try {
-                        const parsed = JSON.parse(viewAttempt.conclusion);
-                        return JSON.stringify(parsed, null, 2);
-                      } catch {
-                        return viewAttempt.conclusion;
-                      }
-                    })()}
+                    {formatConclusion(viewAttempt.slug, viewAttempt.conclusion)}
                   </p>
                 </div>
               )}
