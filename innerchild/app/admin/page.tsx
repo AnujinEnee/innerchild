@@ -87,7 +87,7 @@ export default function AdminDashboard() {
   const dark = theme === "dark";
   const { selectedUserId, openClient, closeClient } = useClientModal();
 
-  const [statsData, setStatsData] = useState({ users: 0, activeConsultations: 0, articles: 0, revenue: 0, testRevenue: 0 });
+  const [statsData, setStatsData] = useState({ users: 0, activeConsultations: 0, articles: 0, revenue: 0, testRevenue: 0, allRevenue: 0 });
   const [upcomingConsultations, setUpcomingConsultations] = useState<DashboardConsultation[]>([]);
   const [todayConsultations, setTodayConsultations] = useState<DashboardConsultation[]>([]);
   const [cancelledConsultations, setCancelledConsultations] = useState<DashboardConsultation[]>([]);
@@ -116,6 +116,8 @@ export default function AdminDashboard() {
         newUsersRows,
         testRows,
         testPaymentRows,
+        allConsultRevenueRows,
+        allTestPaymentRows,
       ] = await Promise.all([
         supabase.from("users").select("id", { count: "exact", head: true }),
         supabase.from("consultations").select("id", { count: "exact", head: true }).eq("status", "normal").gte("date", todayStr),
@@ -144,10 +146,19 @@ export default function AdminDashboard() {
         supabase.from("test_payments")
           .select("amount")
           .gte("paid_at", startOfMonth),
+        // All-time consultation revenue (excluding cancelled).
+        supabase.from("consultations")
+          .select("price")
+          .neq("status", "cancelled"),
+        // All-time test payments.
+        supabase.from("test_payments")
+          .select("amount"),
       ]);
 
       const consultRevenue = (revenueRows.data ?? []).reduce((s: number, c: { price: number }) => s + c.price, 0);
       const testRevenue = (testPaymentRows.data ?? []).reduce((s: number, t: { amount: number }) => s + t.amount, 0);
+      const allConsultRevenue = (allConsultRevenueRows.data ?? []).reduce((s: number, c: { price: number }) => s + c.price, 0);
+      const allTestRevenue = (allTestPaymentRows.data ?? []).reduce((s: number, t: { amount: number }) => s + t.amount, 0);
 
       setStatsData({
         users: usersCount.count ?? 0,
@@ -155,6 +166,7 @@ export default function AdminDashboard() {
         articles: articlesCount.count ?? 0,
         revenue: consultRevenue + testRevenue,
         testRevenue,
+        allRevenue: allConsultRevenue + allTestRevenue,
       });
       setUpcomingConsultations((upcomingRows.data as unknown as DashboardConsultation[]) ?? []);
       setTodayConsultations((todayRows.data as unknown as DashboardConsultation[]) ?? []);
@@ -171,7 +183,7 @@ export default function AdminDashboard() {
     setRefundModal(null);
   }
 
-  const formatRevenue = (v: number) => v >= 1_000_000 ? `${(v / 1_000_000).toFixed(1)}M₮` : v >= 1000 ? `${(v / 1000).toFixed(0)}K₮` : `${v.toLocaleString()}₮`;
+  const formatRevenue = (v: number) => `${v.toLocaleString()}₮`;
 
   const statCards = [
     { label: "Нийт хэрэглэгчид", value: statsData.users.toLocaleString(), color: "from-purple-500 to-indigo-600", icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg> },
@@ -179,6 +191,7 @@ export default function AdminDashboard() {
     { label: "Нийтлэл", value: String(statsData.articles), color: "from-blue-500 to-cyan-600", icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /></svg> },
     { label: "Энэ сарын орлого", value: formatRevenue(statsData.revenue), color: "from-emerald-500 to-teal-600", icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5"><line x1="12" y1="1" x2="12" y2="23" /><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" /></svg> },
     { label: "Тестийн орлого", value: formatRevenue(statsData.testRevenue), color: "from-amber-500 to-orange-600", icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" /><rect x="9" y="3" width="6" height="4" rx="1" /></svg> },
+    { label: "Бүх орлого", value: formatRevenue(statsData.allRevenue), color: "from-fuchsia-500 to-purple-600", icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5"><path d="M3 3v18h18" /><path d="M7 14l4-4 4 4 5-5" /></svg> },
   ];
 
   function clientName(c: DashboardConsultation) {
