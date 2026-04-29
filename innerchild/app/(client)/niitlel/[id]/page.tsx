@@ -291,14 +291,6 @@ export default function ArticlePage() {
                 </span>
               </>
             )}
-            <span className="text-zinc-300">·</span>
-            <span className="flex items-center gap-1.5">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4 text-zinc-400">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                <circle cx="12" cy="12" r="3" />
-              </svg>
-              {(article.view_count ?? 0).toLocaleString()} уншсан
-            </span>
           </div>
 
           {/* Article image */}
@@ -387,6 +379,15 @@ export default function ArticlePage() {
                 )}
               </div>
             )}
+
+            {/* View count — at the bottom of the article body */}
+            <div className="mt-10 flex items-center justify-end gap-1.5 border-t border-zinc-100 pt-5 text-sm text-zinc-500">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+              {(article.view_count ?? 0).toLocaleString()} уншсан
+            </div>
 
             {/* Related articles */}
             {related.length > 0 && (
