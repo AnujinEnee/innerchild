@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useTheme } from "../ThemeContext";
 import { createClient } from "@/lib/supabase/client";
 import { ALL_TESTS, getSlugByDbTestId } from "@/lib/test-logics/registry";
@@ -104,6 +105,18 @@ const emptyQuestion = (): { id: string; question: string; options: string[] } =>
 export default function TestsPage() {
   const { theme } = useTheme();
   const dark = theme === "dark";
+  const router = useRouter();
+
+  function openFullResult(a: { test_id: string; raw_answers: Record<string, unknown> | null; slug: TestSlug | undefined }) {
+    if (!a.slug) return;
+    try {
+      sessionStorage.setItem(
+        `test_result_${a.slug}`,
+        JSON.stringify({ answers: a.raw_answers ?? {}, duration: 0, paid: true, saved: true }),
+      );
+    } catch { /* ignore */ }
+    router.push(`/tests/${a.slug}/result?from=dashboard`);
+  }
 
   const [tests, setTests] = useState<Test[]>([]);
   const [loading, setLoading] = useState(true);
@@ -127,6 +140,7 @@ export default function TestsPage() {
     max_score: number | null;
     conclusion: string | null;
     recommendation: string | null;
+    raw_answers: Record<string, unknown> | null;
   };
   const [testAttempts, setTestAttempts] = useState<TestAttempt[]>([]);
   const [viewAttempt, setViewAttempt] = useState<TestAttempt | null>(null);
@@ -194,7 +208,7 @@ export default function TestsPage() {
     const supabase = createClient();
     const { data } = await supabase
       .from("test_results")
-      .select("id, taken_at, test_id, level, score, max_score, conclusion, recommendation, users!client_id(last_name, first_name, email), tests!test_id(title, category)")
+      .select("id, taken_at, test_id, level, score, max_score, conclusion, recommendation, raw_answers, users!client_id(last_name, first_name, email), tests!test_id(title, category)")
       .order("taken_at", { ascending: false });
     type Row = {
       id: string;
@@ -205,6 +219,7 @@ export default function TestsPage() {
       max_score: number | null;
       conclusion: string | null;
       recommendation: string | null;
+      raw_answers: Record<string, unknown> | null;
       users: { last_name: string; first_name: string; email: string | null } | null;
       tests: { title: string; category: string | null } | null;
     };
@@ -227,6 +242,7 @@ export default function TestsPage() {
         max_score: r.max_score ?? null,
         conclusion: r.conclusion ?? null,
         recommendation: r.recommendation ?? null,
+        raw_answers: r.raw_answers ?? null,
       };
     });
     setTestAttempts(rows);
@@ -846,6 +862,17 @@ export default function TestsPage() {
                   <p className={`mb-1 text-[10px] uppercase tracking-wider ${dark ? "text-white/30" : "text-gray-400"}`}>Зөвлөмж</p>
                   <p className={`whitespace-pre-wrap text-sm leading-relaxed ${dark ? "text-white/70" : "text-gray-600"}`}>{viewAttempt.recommendation}</p>
                 </div>
+              )}
+              {viewAttempt.slug && viewAttempt.raw_answers && (
+                <button
+                  onClick={() => openFullResult(viewAttempt)}
+                  className="inline-flex items-center gap-1.5 rounded-full bg-linear-to-r from-pink-500 to-purple-500 px-5 py-2 text-xs font-semibold text-white transition-opacity hover:opacity-90"
+                >
+                  Web дээрх адил дэлгэрэнгүй харах
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="h-3 w-3">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </button>
               )}
             </div>
           </div>
