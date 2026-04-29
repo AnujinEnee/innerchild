@@ -96,10 +96,7 @@ function LuscherTest({ onComplete }: { onComplete: (first: number[], second: num
   if (stage === "break") {
     const pct = ((LUSCHER_BREAK_SECONDS - breakSecondsLeft) / LUSCHER_BREAK_SECONDS) * 100;
     return (
-      <div className="relative flex flex-col items-center gap-8 overflow-hidden rounded-3xl bg-linear-to-br from-purple-50 via-pink-50 to-purple-50 px-6 py-12 sm:py-16">
-        {/* Decorative blurs */}
-        <div className="pointer-events-none absolute -left-12 -top-12 h-48 w-48 rounded-full bg-pink-200/40 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-12 -right-12 h-48 w-48 rounded-full bg-purple-200/40 blur-3xl" />
+      <div className="relative flex flex-col items-center gap-8 px-6 py-12 sm:py-16">
 
         {/* Lotus / breathe icon */}
         <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white/70 shadow-sm backdrop-blur sm:h-14 sm:w-14">
