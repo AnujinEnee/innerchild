@@ -342,10 +342,10 @@ function NiitlelContent() {
                       <p className="mb-1 text-[10px] font-bold tracking-normal text-[#f97316] sm:mb-2 sm:text-xs">
                         {article.subcategory ?? article.category}
                       </p>
-                      <h3 className="mb-1 text-sm font-bold leading-snug text-[#2d1b69] sm:mb-2 sm:text-base">
+                      <h3 className="mb-1 line-clamp-2 text-sm font-bold leading-snug text-[#2d1b69] sm:mb-2 sm:text-base">
                         {article.title}
                       </h3>
-                      <p className="mb-3 flex-1 line-clamp-4 text-xs leading-relaxed text-zinc-500 sm:mb-4 sm:line-clamp-5 sm:text-sm">
+                      <p className="mb-3 flex-1 overflow-hidden text-xs leading-relaxed text-zinc-500 sm:mb-4 sm:text-sm">
                         {article.content.replace(/<[^>]*>/g, "")}
                       </p>
                       <div className="flex items-center justify-between">
