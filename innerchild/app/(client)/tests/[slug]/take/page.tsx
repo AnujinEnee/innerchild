@@ -96,7 +96,7 @@ function LuscherTest({ onComplete }: { onComplete: (first: number[], second: num
   if (stage === "break") {
     const pct = ((LUSCHER_BREAK_SECONDS - breakSecondsLeft) / LUSCHER_BREAK_SECONDS) * 100;
     return (
-      <div className="relative flex flex-col items-center gap-8 px-6 py-12 sm:py-16">
+      <div className="relative flex flex-col items-center gap-6 px-6 pt-2 pb-6 sm:gap-8 sm:pt-4 sm:pb-8">
         <h3 className="relative z-10 bg-linear-to-r from-pink-500 via-fuchsia-500 to-purple-500 bg-clip-text text-center text-2xl font-bold text-transparent sm:text-3xl md:text-4xl">
           Богино завсарлага
         </h3>
