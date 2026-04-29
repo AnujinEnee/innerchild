@@ -541,9 +541,22 @@ export default function TestResultPage({
     } catch { /* ignore */ }
   }, [slug, test.slug]);
 
-  // Save to DB (once)
+  // Save to DB (once per test attempt — guarded by sessionStorage so a page
+  // refresh does NOT create a duplicate row in test_results).
   useEffect(() => {
     if (!result || !user || saved || savingRef.current) return;
+
+    // Already saved during this attempt? Then skip (refresh-safe).
+    try {
+      const raw = sessionStorage.getItem(`test_result_${slug}`);
+      const parsed = raw ? JSON.parse(raw) : null;
+      if (parsed?.saved === true) {
+        setSaved(true);
+        savingRef.current = true;
+        return;
+      }
+    } catch { /* ignore */ }
+
     savingRef.current = true;
     const save = async () => {
       const supabase = createClient();
@@ -567,8 +580,19 @@ export default function TestResultPage({
         conclusion: result.conclusion,
         raw_answers: answers,
       });
-      if (!error) setSaved(true);
-      else { console.error("Test result save error:", JSON.stringify(error)); savingRef.current = false; }
+      if (!error) {
+        setSaved(true);
+        // Persist saved flag in sessionStorage so refresh doesn't re-insert.
+        try {
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            sessionStorage.setItem(`test_result_${slug}`, JSON.stringify({ ...parsed, saved: true }));
+          }
+        } catch { /* ignore */ }
+      } else {
+        console.error("Test result save error:", JSON.stringify(error));
+        savingRef.current = false;
+      }
     };
     save();
   }, [result, user, saved, slug, test.dbTestId]);
