@@ -24,6 +24,7 @@ interface Article {
   subcategory: string | null;
   image_url: string | null;
   author_name: string | null;
+  view_count: number | null;
   published_at: string | null;
   published_date: string | null;
   created_at: string;
@@ -130,7 +131,7 @@ function NiitlelContent() {
     createClient()
       .from("articles")
       .select(
-        "id, title, content, category, subcategory, image_url, author_name, published_at, published_date, created_at, team_members(first_name, last_name)",
+        "id, title, content, category, subcategory, image_url, author_name, view_count, published_at, published_date, created_at, team_members(first_name, last_name)",
       )
       .eq("status", "published")
       .order("published_at", { ascending: false })
@@ -354,6 +355,13 @@ function NiitlelContent() {
                             {author}
                           </p>
                         )}
+                      </div>
+                      <div className="mt-2 flex items-center justify-end gap-1 text-[11px] text-zinc-400 sm:text-xs">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-3 w-3">
+                          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                          <circle cx="12" cy="12" r="3" />
+                        </svg>
+                        {(article.view_count ?? 0).toLocaleString()} уншсан
                       </div>
                     </Link>
                   );
