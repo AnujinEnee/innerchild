@@ -88,8 +88,8 @@ export default function Footer() {
   }
 
   return (
-    <footer className="bg-[#1e1145] px-0 py-0 sm:bg-transparent sm:px-9 sm:py-8 md:px-16 lg:px-28">
-      <div className="rounded-none bg-[#1e1145] px-6 pt-10 pb-6 sm:rounded-3xl sm:px-8 sm:pt-14 sm:pb-8 lg:px-28">
+    <footer className="px-6 py-4 sm:px-9 sm:py-8 md:px-16 lg:px-28">
+      <div className="rounded-2xl bg-[#1e1145] px-5 pt-10 pb-6 sm:rounded-3xl sm:px-8 sm:pt-14 sm:pb-8 lg:px-28">
         <div className="grid gap-8 sm:gap-12 md:grid-cols-[1.2fr_1fr_1fr]">
           {/* Contact info */}
           <div>
