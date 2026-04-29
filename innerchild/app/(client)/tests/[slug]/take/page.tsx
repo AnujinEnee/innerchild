@@ -96,26 +96,50 @@ function LuscherTest({ onComplete }: { onComplete: (first: number[], second: num
   if (stage === "break") {
     const pct = ((LUSCHER_BREAK_SECONDS - breakSecondsLeft) / LUSCHER_BREAK_SECONDS) * 100;
     return (
-      <div className="flex flex-col items-center gap-6 py-6">
-        <p className="text-center text-base font-semibold text-zinc-700 sm:text-lg">
-          1 минутын завсарлага
+      <div className="relative flex flex-col items-center gap-8 overflow-hidden rounded-3xl bg-linear-to-br from-purple-50 via-pink-50 to-purple-50 px-6 py-12 sm:py-16">
+        {/* Decorative blurs */}
+        <div className="pointer-events-none absolute -left-12 -top-12 h-48 w-48 rounded-full bg-pink-200/40 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-12 -right-12 h-48 w-48 rounded-full bg-purple-200/40 blur-3xl" />
+
+        {/* Lotus / breathe icon */}
+        <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white/70 shadow-sm backdrop-blur sm:h-14 sm:w-14">
+          <svg viewBox="0 0 24 24" fill="none" stroke="url(#breath-grad)" strokeWidth="1.5" className="h-6 w-6 sm:h-7 sm:w-7">
+            <defs>
+              <linearGradient id="breath-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#ec4899" />
+                <stop offset="100%" stopColor="#a855f7" />
+              </linearGradient>
+            </defs>
+            <path d="M12 2c-2 4-4 6-4 9a4 4 0 0 0 8 0c0-3-2-5-4-9z" />
+            <path d="M5 14c-2 1-3 3-3 5a3 3 0 0 0 6 0" />
+            <path d="M19 14c2 1 3 3 3 5a3 3 0 0 1-6 0" />
+          </svg>
+        </div>
+
+        <h3 className="relative z-10 bg-linear-to-r from-pink-500 via-fuchsia-500 to-purple-500 bg-clip-text text-center text-2xl font-bold text-transparent sm:text-3xl md:text-4xl">
+          Богино завсарлага
+        </h3>
+
+        <p className="relative z-10 max-w-md text-center text-sm font-light leading-relaxed text-zinc-500 sm:text-base">
+          Гүн амьсгал аваад сэтгэлээ тайвшруулна уу.
+          <br className="hidden sm:block" />
+          1 минутын дараа дахин сонгох боломжтой.
         </p>
-        <p className="max-w-md text-center text-sm text-zinc-500">
-          Сэтгэлээ тайвшруулж, дараагийн сонголтыг шинээр хийхэд бэлдэнэ үү.
-        </p>
-        <div className="relative flex h-64 w-64 items-center justify-center sm:h-72 sm:w-72">
+
+        {/* Timer circle */}
+        <div className="relative z-10 flex h-64 w-64 items-center justify-center sm:h-72 sm:w-72">
           <svg className="absolute inset-0 -rotate-90" viewBox="0 0 100 100">
-            <circle cx="50" cy="50" r="45" stroke="#e5e7eb" strokeWidth="4" fill="none" />
+            <circle cx="50" cy="50" r="46" stroke="rgba(168,85,247,0.12)" strokeWidth="3" fill="none" />
             <circle
               cx="50"
               cy="50"
-              r="45"
+              r="46"
               stroke="url(#luscher-grad)"
-              strokeWidth="4"
+              strokeWidth="3"
               fill="none"
-              strokeDasharray={`${(pct / 100) * 283} 283`}
+              strokeDasharray={`${(pct / 100) * 289} 289`}
               strokeLinecap="round"
-              className="transition-[stroke-dasharray] duration-1000"
+              className="transition-[stroke-dasharray] duration-1000 filter-[drop-shadow(0_0_6px_rgba(236,72,153,0.4))]"
             />
             <defs>
               <linearGradient id="luscher-grad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -125,10 +149,18 @@ function LuscherTest({ onComplete }: { onComplete: (first: number[], second: num
             </defs>
           </svg>
           <div className="text-center">
-            <p className="text-7xl font-bold text-[#2d1b69] sm:text-8xl">{breakSecondsLeft}</p>
-            <p className="mt-2 text-sm text-zinc-400">секунд</p>
+            <p className="bg-linear-to-br from-[#2d1b69] to-purple-600 bg-clip-text text-7xl font-bold tabular-nums leading-none text-transparent sm:text-8xl">
+              {String(breakSecondsLeft).padStart(2, "0")}
+            </p>
+            <p className="mt-3 text-[11px] font-medium uppercase tracking-[0.3em] text-purple-400 sm:text-xs">
+              секунд
+            </p>
           </div>
         </div>
+
+        <p className="relative z-10 max-w-sm text-center text-[11px] italic text-zinc-400 sm:text-xs">
+          &ldquo;Дараагийн сонголтыг шинэ сэтгэлээр хийхэд завсарлага туслана.&rdquo;
+        </p>
       </div>
     );
   }
