@@ -102,6 +102,23 @@ const contentData: Record<
   },
 };
 
+function plainExcerpt(html: string): string {
+  return html
+    .replace(/<[^>]*>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&hellip;/g, "…")
+    .replace(/&mdash;/g, "—")
+    .replace(/&ndash;/g, "–")
+    .replace(/&#(\d+);/g, (_, n: string) => String.fromCharCode(parseInt(n, 10)))
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 function NiitlelContent() {
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState(() => {
@@ -348,7 +365,7 @@ function NiitlelContent() {
                           {article.title}
                         </h3>
                         <p className="text-xs leading-relaxed text-zinc-500 sm:text-sm">
-                          {article.content.replace(/<[^>]*>/g, "")}
+                          {plainExcerpt(article.content)}
                         </p>
                       </div>
                       <div className="flex items-center justify-between">
