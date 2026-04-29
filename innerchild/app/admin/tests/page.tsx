@@ -63,6 +63,7 @@ export default function TestsPage() {
       slug: TestSlug | undefined;
       user_name: string;
       user_email: string | null;
+      level: string | null;
     }[]
   >([]);
   const [testPrices, setTestPrices] = useState<Record<string, number>>({});
@@ -129,12 +130,13 @@ export default function TestsPage() {
     const supabase = createClient();
     const { data } = await supabase
       .from("test_results")
-      .select("id, taken_at, test_id, users!client_id(last_name, first_name, email), tests!test_id(title, category)")
+      .select("id, taken_at, test_id, level, users!client_id(last_name, first_name, email), tests!test_id(title, category)")
       .order("taken_at", { ascending: false });
     type Row = {
       id: string;
       taken_at: string;
       test_id: string;
+      level: string | null;
       users: { last_name: string; first_name: string; email: string | null } | null;
       tests: { title: string; category: string | null } | null;
     };
@@ -152,6 +154,7 @@ export default function TestsPage() {
         slug,
         user_name: userName,
         user_email: r.users?.email ?? null,
+        level: r.level ?? null,
       };
     });
     setTestAttempts(rows);
@@ -663,13 +666,13 @@ export default function TestsPage() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className={dark ? "bg-white/5" : "bg-gray-50"}>
-                    <th className={`px-5 py-3 text-left text-xs font-semibold ${dark ? "text-white/40" : "text-gray-500"}`}>Огноо</th>
                     <th className={`px-5 py-3 text-left text-xs font-semibold ${dark ? "text-white/40" : "text-gray-500"}`}>Тест</th>
                     <th className={`px-5 py-3 text-left text-xs font-semibold ${dark ? "text-white/40" : "text-gray-500"}`}>Ангилал</th>
                     <th className={`px-5 py-3 text-left text-xs font-semibold ${dark ? "text-white/40" : "text-gray-500"}`}>Төрөл</th>
-                    <th className={`px-5 py-3 text-left text-xs font-semibold ${dark ? "text-white/40" : "text-gray-500"}`}>Хэн</th>
-                    <th className={`px-5 py-3 text-left text-xs font-semibold ${dark ? "text-white/40" : "text-gray-500"}`}>Имэйл</th>
+                    <th className={`px-5 py-3 text-left text-xs font-semibold ${dark ? "text-white/40" : "text-gray-500"}`}>Хэрэглэгч</th>
                     <th className={`px-5 py-3 text-right text-xs font-semibold ${dark ? "text-white/40" : "text-gray-500"}`}>Үнэ</th>
+                    <th className={`px-5 py-3 text-left text-xs font-semibold ${dark ? "text-white/40" : "text-gray-500"}`}>Огноо</th>
+                    <th className={`px-5 py-3 text-left text-xs font-semibold ${dark ? "text-white/40" : "text-gray-500"}`}>Үр дүн</th>
                   </tr>
                 </thead>
                 <tbody className={`divide-y ${dark ? "divide-white/5" : "divide-gray-100"}`}>
@@ -679,9 +682,6 @@ export default function TestsPage() {
                     const price = dbPrice ?? meta?.price ?? 0;
                     return (
                       <tr key={a.id} className={dark ? "hover:bg-white/5" : "hover:bg-gray-50"}>
-                        <td className={`whitespace-nowrap px-5 py-3 ${dark ? "text-white/50" : "text-gray-500"}`}>
-                          {new Date(a.taken_at).toLocaleString("mn-MN", { year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" })}
-                        </td>
                         <td className={`px-5 py-3 font-medium ${dark ? "text-white" : "text-gray-900"}`}>{a.test_title}</td>
                         <td className={`px-5 py-3 ${dark ? "text-white/50" : "text-gray-500"}`}>{a.test_category ?? "—"}</td>
                         <td className="px-5 py-3">
@@ -689,11 +689,19 @@ export default function TestsPage() {
                             {price > 0 ? "Төлбөртэй" : "Үнэгүй"}
                           </span>
                         </td>
-                        <td className={`px-5 py-3 ${dark ? "text-white/80" : "text-gray-700"}`}>{a.user_name}</td>
-                        <td className={`px-5 py-3 ${dark ? "text-white/50" : "text-gray-500"}`}>{a.user_email ?? "—"}</td>
+                        <td className="px-5 py-3">
+                          <div className={`font-medium ${dark ? "text-white/80" : "text-gray-800"}`}>{a.user_name}</div>
+                          {a.user_email && (
+                            <div className={`text-[11px] ${dark ? "text-white/40" : "text-gray-500"}`}>{a.user_email}</div>
+                          )}
+                        </td>
                         <td className={`px-5 py-3 text-right font-medium ${dark ? "text-white" : "text-gray-900"}`}>
                           {price > 0 ? `${price.toLocaleString()}₮` : "Үнэгүй"}
                         </td>
+                        <td className={`whitespace-nowrap px-5 py-3 ${dark ? "text-white/50" : "text-gray-500"}`}>
+                          {new Date(a.taken_at).toLocaleString("mn-MN", { year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" })}
+                        </td>
+                        <td className={`px-5 py-3 ${dark ? "text-white/70" : "text-gray-700"}`}>{a.level ?? "—"}</td>
                       </tr>
                     );
                   })}
