@@ -241,7 +241,7 @@ export default function Niitlel() {
                 href="/team"
                 className="rounded-full bg-linear-to-r from-pink-500 to-purple-400 px-5 py-2.5 text-xs font-semibold text-white shadow-sm transition-opacity hover:opacity-90 sm:text-sm"
               >
-                Сэтгэл зүйчээ сонгох
+                Өөрийн дотоод хүүхдэд тохирох сэтгэл зүйчээ сонгоорой.
               </Link>
               <Link
                 href="/privacy"
