@@ -53,6 +53,18 @@ export default function TestsPage() {
   const [saving, setSaving] = useState(false);
   const [testPayments, setTestPayments] = useState<{ test_slug: string; amount: number; paid_at: string }[]>([]);
   const [testTakenCounts, setTestTakenCounts] = useState<Record<string, number>>({});
+  const [testAttempts, setTestAttempts] = useState<
+    {
+      id: string;
+      taken_at: string;
+      test_title: string;
+      test_category: string | null;
+      test_id: string;
+      slug: TestSlug | undefined;
+      user_name: string;
+      user_email: string | null;
+    }[]
+  >([]);
   const [testPrices, setTestPrices] = useState<Record<string, number>>({});
   const [priceEditing, setPriceEditing] = useState<string | null>(null);
   const [priceInput, setPriceInput] = useState("");
@@ -112,6 +124,38 @@ export default function TestsPage() {
     setTestTakenCounts(counts);
   }
 
+  async function fetchTestAttempts() {
+    const supabase = createClient();
+    const { data } = await supabase
+      .from("test_results")
+      .select("id, taken_at, test_id, users!client_id(last_name, first_name, email), tests!test_id(title, category)")
+      .order("taken_at", { ascending: false });
+    type Row = {
+      id: string;
+      taken_at: string;
+      test_id: string;
+      users: { last_name: string; first_name: string; email: string | null } | null;
+      tests: { title: string; category: string | null } | null;
+    };
+    const rows = ((data ?? []) as unknown as Row[]).map((r) => {
+      const slug = getSlugByDbTestId(r.test_id);
+      const userName = r.users
+        ? `${r.users.last_name} ${r.users.first_name}`.trim()
+        : "—";
+      return {
+        id: r.id,
+        taken_at: r.taken_at,
+        test_title: r.tests?.title ?? "—",
+        test_category: r.tests?.category ?? null,
+        test_id: r.test_id,
+        slug,
+        user_name: userName,
+        user_email: r.users?.email ?? null,
+      };
+    });
+    setTestAttempts(rows);
+  }
+
   async function fetchTestPrices() {
     try {
       const res = await fetch("/api/test-prices");
@@ -145,6 +189,8 @@ export default function TestsPage() {
     fetchTestPrices();
     // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchTestTakenCounts();
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    fetchTestAttempts();
   }, []);
 
   function openNew() {
@@ -579,6 +625,58 @@ export default function TestsPage() {
               })}
             </tbody>
           </table>
+        </div>
+      </div>
+
+      {/* Test Attempts Log — sorted by date desc */}
+      <div className="mb-6">
+        <h2 className={`mb-4 text-lg font-bold ${dark ? "text-white" : "text-gray-900"}`}>Тест өгсөн түүх</h2>
+        <div className={`overflow-hidden rounded-2xl ${dark ? "bg-white/5" : "bg-white shadow-sm"}`}>
+          {testAttempts.length === 0 ? (
+            <p className={`px-5 py-8 text-center text-sm ${dark ? "text-white/30" : "text-gray-400"}`}>Тест өгсөн бүртгэл алга</p>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className={dark ? "bg-white/5" : "bg-gray-50"}>
+                    <th className={`px-5 py-3 text-left text-xs font-semibold ${dark ? "text-white/40" : "text-gray-500"}`}>Огноо</th>
+                    <th className={`px-5 py-3 text-left text-xs font-semibold ${dark ? "text-white/40" : "text-gray-500"}`}>Тест</th>
+                    <th className={`px-5 py-3 text-left text-xs font-semibold ${dark ? "text-white/40" : "text-gray-500"}`}>Ангилал</th>
+                    <th className={`px-5 py-3 text-left text-xs font-semibold ${dark ? "text-white/40" : "text-gray-500"}`}>Төрөл</th>
+                    <th className={`px-5 py-3 text-left text-xs font-semibold ${dark ? "text-white/40" : "text-gray-500"}`}>Хэн</th>
+                    <th className={`px-5 py-3 text-left text-xs font-semibold ${dark ? "text-white/40" : "text-gray-500"}`}>Имэйл</th>
+                    <th className={`px-5 py-3 text-right text-xs font-semibold ${dark ? "text-white/40" : "text-gray-500"}`}>Үнэ</th>
+                  </tr>
+                </thead>
+                <tbody className={`divide-y ${dark ? "divide-white/5" : "divide-gray-100"}`}>
+                  {testAttempts.map((a) => {
+                    const meta = a.slug ? ALL_TESTS.find((t) => t.slug === a.slug) : undefined;
+                    const dbPrice = a.slug ? testPrices[a.slug] : undefined;
+                    const price = dbPrice ?? meta?.price ?? 0;
+                    return (
+                      <tr key={a.id} className={dark ? "hover:bg-white/5" : "hover:bg-gray-50"}>
+                        <td className={`whitespace-nowrap px-5 py-3 ${dark ? "text-white/50" : "text-gray-500"}`}>
+                          {new Date(a.taken_at).toLocaleString("mn-MN", { year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" })}
+                        </td>
+                        <td className={`px-5 py-3 font-medium ${dark ? "text-white" : "text-gray-900"}`}>{a.test_title}</td>
+                        <td className={`px-5 py-3 ${dark ? "text-white/50" : "text-gray-500"}`}>{a.test_category ?? "—"}</td>
+                        <td className="px-5 py-3">
+                          <span className={`rounded-full px-2.5 py-0.5 text-[10px] font-semibold ${price > 0 ? "bg-purple-100 text-purple-700" : "bg-green-100 text-green-700"}`}>
+                            {price > 0 ? "Төлбөртэй" : "Үнэгүй"}
+                          </span>
+                        </td>
+                        <td className={`px-5 py-3 ${dark ? "text-white/80" : "text-gray-700"}`}>{a.user_name}</td>
+                        <td className={`px-5 py-3 ${dark ? "text-white/50" : "text-gray-500"}`}>{a.user_email ?? "—"}</td>
+                        <td className={`px-5 py-3 text-right font-medium ${dark ? "text-white" : "text-gray-900"}`}>
+                          {price > 0 ? `${price.toLocaleString()}₮` : "Үнэгүй"}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </div>
 
