@@ -205,7 +205,7 @@ export default function AdminLogin() {
                   e.preventDefault();
                   if (!forgotEmail.trim()) { setForgotMsg("И-мэйл хаягаа оруулна уу"); return; }
                   setForgotLoading(true); setForgotMsg("");
-                  const { error } = await createClient().auth.resetPasswordForEmail(forgotEmail, { redirectTo: `${window.location.origin}/reset-password` });
+                  const { error } = await createClient().auth.resetPasswordForEmail(forgotEmail, { redirectTo: `${window.location.origin}/reset-password?next=/admin/login` });
                   setForgotLoading(false);
                   if (error) { setForgotMsg(error.message); return; }
                   setForgotMsg("Нууц үг сэргээх холбоосыг и-мэйл рүү илгээлээ.");

@@ -72,7 +72,9 @@ export default function ResetPasswordPage() {
     setSaving(false);
     if (error) { setError(error.message); return; }
     setDone(true);
-    setTimeout(() => router.push("/login"), 2000);
+    // Honor `?next=/admin/login` / `?next=/teamuser/login` etc.
+    const next = searchParams.get("next") || "/login";
+    setTimeout(() => router.push(next), 2000);
   }
 
   return (
