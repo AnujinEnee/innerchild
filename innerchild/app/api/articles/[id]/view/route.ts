@@ -19,27 +19,18 @@ export async function POST(
 
   const supabase = await createClient();
 
-  // Read current count, then update. Not strictly atomic across replicas,
-  // but acceptable for a view counter — the cookie dedup is the main guard.
-  const { data: current } = await supabase
-    .from("articles")
-    .select("view_count")
-    .eq("id", id)
-    .single();
-
-  if (!current) {
-    return NextResponse.json({ error: "Not found" }, { status: 404 });
-  }
-
-  const next = (current.view_count ?? 0) + 1;
-  const { error } = await supabase
-    .from("articles")
-    .update({ view_count: next })
-    .eq("id", id);
+  // Atomic increment via SECURITY DEFINER RPC (bypasses articles RLS which
+  // blocks anon UPDATE). See migration 017_article_view_rpc.sql.
+  const { data: next, error } = await supabase.rpc("increment_article_view", {
+    p_article_id: id,
+  });
 
   if (error) {
     console.error("view_count update failed:", error.message);
     return NextResponse.json({ error: "Update failed" }, { status: 500 });
+  }
+  if (next === null) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
   const res = NextResponse.json({ counted: true, view_count: next });
