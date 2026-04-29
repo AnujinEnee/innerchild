@@ -155,8 +155,8 @@ function LuscherTest({ onComplete }: { onComplete: (first: number[], second: num
     const pct = ((LUSCHER_BREAK_SECONDS - breakSecondsLeft) / LUSCHER_BREAK_SECONDS) * 100;
     return (
       <div className="relative flex flex-col items-center gap-6 py-6">
-        {/* Star-tap mini-game playground (positioned behind everything) */}
-        <div className="pointer-events-none absolute inset-0 z-0">
+        {/* Star-tap mini-game playground (overlay so taps reach stars on top of timer) */}
+        <div className="pointer-events-none absolute inset-0 z-20">
           {stars.map((s) => {
             const age = (Date.now() - s.born) / 5000; // 0..1
             const baseOpacity = age < 0.15 ? age / 0.15 : age > 0.7 ? Math.max(0, 1 - (age - 0.7) / 0.3) : 1;
