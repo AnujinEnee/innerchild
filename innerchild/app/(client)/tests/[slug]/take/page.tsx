@@ -84,6 +84,7 @@ interface Star {
   color: string;
   size: number;
   born: number;
+  popping?: boolean;
 }
 
 function LuscherTest({ onComplete }: { onComplete: (first: number[], second: number[]) => void }) {
@@ -142,8 +143,12 @@ function LuscherTest({ onComplete }: { onComplete: (first: number[], second: num
   }, [stage]);
 
   function popStar(id: number) {
-    setStars((prev) => prev.filter((s) => s.id !== id));
     setScore((s) => s + 1);
+    // Mark as popping so it grows + fades, then remove from state.
+    setStars((prev) => prev.map((s) => (s.id === id ? { ...s, popping: true } : s)));
+    setTimeout(() => {
+      setStars((prev) => prev.filter((s) => s.id !== id));
+    }, 400);
   }
 
   if (stage === "break") {
@@ -154,23 +159,27 @@ function LuscherTest({ onComplete }: { onComplete: (first: number[], second: num
         <div className="pointer-events-none absolute inset-0 z-0">
           {stars.map((s) => {
             const age = (Date.now() - s.born) / 5000; // 0..1
-            const opacity = age < 0.15 ? age / 0.15 : age > 0.7 ? Math.max(0, 1 - (age - 0.7) / 0.3) : 1;
+            const baseOpacity = age < 0.15 ? age / 0.15 : age > 0.7 ? Math.max(0, 1 - (age - 0.7) / 0.3) : 1;
+            const opacity = s.popping ? 0 : baseOpacity;
+            const scale = s.popping ? 2.5 : 1;
             return (
               <button
                 key={s.id}
-                onClick={() => popStar(s.id)}
+                onClick={() => !s.popping && popStar(s.id)}
+                disabled={s.popping}
                 aria-label="одыг товш"
-                className="pointer-events-auto absolute -translate-x-1/2 -translate-y-1/2 transition-transform duration-200 hover:scale-150 active:scale-90"
+                className="pointer-events-auto absolute -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ease-out hover:scale-150"
                 style={{
                   left: `${s.x}%`,
                   top: `${s.y}%`,
                   width: s.size,
                   height: s.size,
                   opacity,
-                  filter: `drop-shadow(0 0 6px ${s.color}80)`,
+                  transform: `translate(-50%, -50%) scale(${scale}) rotate(${s.popping ? 90 : 0}deg)`,
+                  filter: `drop-shadow(0 0 ${s.popping ? 16 : 6}px ${s.color}cc)`,
                 }}
               >
-                <svg viewBox="0 0 24 24" fill={s.color} className="h-full w-full animate-pulse">
+                <svg viewBox="0 0 24 24" fill={s.color} className={`h-full w-full ${s.popping ? "" : "animate-pulse"}`}>
                   <path d="M12 2l2.4 7.4H22l-6.2 4.5L18.2 22 12 17.3 5.8 22l2.4-8.1L2 9.4h7.6L12 2z" />
                 </svg>
               </button>
