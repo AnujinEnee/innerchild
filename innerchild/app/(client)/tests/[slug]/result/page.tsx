@@ -551,8 +551,9 @@ export default function TestResultPage({
       const raw = sessionStorage.getItem(`test_result_${slug}`);
       const parsed = raw ? JSON.parse(raw) : null;
       if (parsed?.saved === true) {
-        setSaved(true);
         savingRef.current = true;
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setSaved(true);
         return;
       }
     } catch { /* ignore */ }
