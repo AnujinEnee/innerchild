@@ -129,12 +129,6 @@ function LuscherTest({ onComplete }: { onComplete: (first: number[], second: num
             <p className="text-xs text-zinc-400">секунд</p>
           </div>
         </div>
-        <button
-          onClick={() => setStage("round2")}
-          className="text-xs text-zinc-400 underline hover:text-zinc-600"
-        >
-          Алгасах
-        </button>
       </div>
     );
   }
