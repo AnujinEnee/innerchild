@@ -74,19 +74,79 @@ const LUSCHER_COLORS = [
   { id: 7, name: "Хар", hex: "#1a1a1a" },
 ];
 
+const LUSCHER_BREAK_SECONDS = 60;
+
 function LuscherTest({ onComplete }: { onComplete: (first: number[], second: number[]) => void }) {
-  const [round, setRound] = useState<1 | 2>(1);
+  const [stage, setStage] = useState<"round1" | "break" | "round2">("round1");
   const [firstSelection, setFirstSelection] = useState<number[]>([]);
   const [secondSelection, setSecondSelection] = useState<number[]>([]);
+  const [breakSecondsLeft, setBreakSecondsLeft] = useState(LUSCHER_BREAK_SECONDS);
 
-  const currentSelection = round === 1 ? firstSelection : secondSelection;
+  // Break timer between round 1 and round 2.
+  useEffect(() => {
+    if (stage !== "break") return;
+    if (breakSecondsLeft <= 0) {
+      setStage("round2");
+      return;
+    }
+    const t = setTimeout(() => setBreakSecondsLeft((s) => s - 1), 1000);
+    return () => clearTimeout(t);
+  }, [stage, breakSecondsLeft]);
+
+  if (stage === "break") {
+    const pct = ((LUSCHER_BREAK_SECONDS - breakSecondsLeft) / LUSCHER_BREAK_SECONDS) * 100;
+    return (
+      <div className="flex flex-col items-center gap-6 py-6">
+        <p className="text-center text-base font-semibold text-zinc-700 sm:text-lg">
+          1 минутын завсарлага
+        </p>
+        <p className="max-w-md text-center text-sm text-zinc-500">
+          Сэтгэлээ тайвшруулж, дараагийн сонголтыг шинээр хийхэд бэлдэнэ үү.
+        </p>
+        <div className="relative flex h-32 w-32 items-center justify-center">
+          <svg className="absolute inset-0 -rotate-90" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45" stroke="#e5e7eb" strokeWidth="6" fill="none" />
+            <circle
+              cx="50"
+              cy="50"
+              r="45"
+              stroke="url(#luscher-grad)"
+              strokeWidth="6"
+              fill="none"
+              strokeDasharray={`${(pct / 100) * 283} 283`}
+              strokeLinecap="round"
+              className="transition-[stroke-dasharray] duration-1000"
+            />
+            <defs>
+              <linearGradient id="luscher-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#ec4899" />
+                <stop offset="100%" stopColor="#a855f7" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <div className="text-center">
+            <p className="text-3xl font-bold text-[#2d1b69]">{breakSecondsLeft}</p>
+            <p className="text-xs text-zinc-400">секунд</p>
+          </div>
+        </div>
+        <button
+          onClick={() => setStage("round2")}
+          className="text-xs text-zinc-400 underline hover:text-zinc-600"
+        >
+          Алгасах
+        </button>
+      </div>
+    );
+  }
+
+  const currentSelection = stage === "round1" ? firstSelection : secondSelection;
   const remaining = LUSCHER_COLORS.filter((c) => !currentSelection.includes(c.id));
 
   function selectColor(id: number) {
-    if (round === 1) {
+    if (stage === "round1") {
       const next = [...firstSelection, id];
       setFirstSelection(next);
-      if (next.length === 8) setRound(2);
+      if (next.length === 8) setStage("break");
     } else {
       const next = [...secondSelection, id];
       setSecondSelection(next);
@@ -97,7 +157,7 @@ function LuscherTest({ onComplete }: { onComplete: (first: number[], second: num
   return (
     <div>
       <p className="mb-2 text-center text-sm text-zinc-600">
-        {round === 1 ? "1-р сонголт" : "2-р сонголт"} — Дуртай өнгөнөөсөө эхэлж сонгоно уу
+        {stage === "round1" ? "1-р сонголт" : "2-р сонголт"} — Дуртай өнгөнөөсөө эхэлж сонгоно уу
       </p>
       <p className="mb-6 text-center text-xs text-zinc-400">
         Сонгосон: {currentSelection.length}/8
