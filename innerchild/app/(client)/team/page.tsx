@@ -44,9 +44,9 @@ export default function TeamPage() {
       {/* Hero */}
       <div className="bg-[#2d1b69] px-6 pt-28 pb-10 sm:px-9 sm:pt-36 sm:pb-14 md:px-16 lg:px-28">
         <h1 className="mb-3 text-4xl font-bold text-white md:text-5xl text-center">
-          Манай{" "}
+          Сэтгэцийн{" "}
           <span className="bg-linear-to-r from-pink-300 to-purple-300 bg-clip-text italic text-transparent">
-            хамт олон
+            эрүүл мэнд
           </span>
         </h1>
         <p className="mb-6  text-sm text-purple-300/70 text-center">
