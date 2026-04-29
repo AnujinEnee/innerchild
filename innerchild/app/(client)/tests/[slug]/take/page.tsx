@@ -190,7 +190,7 @@ function LuscherTest({ onComplete }: { onComplete: (first: number[], second: num
           <svg viewBox="0 0 24 24" fill="currentColor" className="h-3.5 w-3.5">
             <path d="M12 2l2.4 7.4H22l-6.2 4.5L18.2 22 12 17.3 5.8 22l2.4-8.1L2 9.4h7.6L12 2z" />
           </svg>
-          {score} оноо
+          {score > 0 ? `${score} од` : "Од дээр дарж од цуглуулаарай"}
         </div>
 
         {/* Timer circle */}
