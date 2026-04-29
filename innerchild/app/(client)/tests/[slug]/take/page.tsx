@@ -182,7 +182,7 @@ function LuscherTest({ onComplete }: { onComplete: (first: number[], second: num
           1 минутын завсарлага
         </p>
         <p className="relative z-10 max-w-md text-center text-sm text-zinc-500">
-          Одод дээр товшоод оноо цуглуулж, сэтгэлээ тайвшруулна уу.
+          Завсарлага авсанаар дараагийн хэсгийг бөглөхөд туслана.
         </p>
 
         {/* Score badge */}
