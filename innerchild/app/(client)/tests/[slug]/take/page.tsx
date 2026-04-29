@@ -97,15 +97,9 @@ function LuscherTest({ onComplete }: { onComplete: (first: number[], second: num
     const pct = ((LUSCHER_BREAK_SECONDS - breakSecondsLeft) / LUSCHER_BREAK_SECONDS) * 100;
     return (
       <div className="relative flex flex-col items-center gap-6 px-6 pt-2 pb-6 sm:gap-8 sm:pt-4 sm:pb-8">
-        <h3 className="relative z-10 bg-linear-to-r from-pink-500 via-fuchsia-500 to-purple-500 bg-clip-text text-center text-2xl font-bold text-transparent sm:text-3xl md:text-4xl">
+        <h3 className="relative z-10 bg-linear-to-r from-pink-500 via-fuchsia-500 to-purple-500 bg-clip-text text-center text-2xl font-bold text-transparent sm:text-3xl">
           Богино завсарлага
         </h3>
-
-        <p className="relative z-10 max-w-md text-center text-sm font-light leading-relaxed text-zinc-500 sm:text-base">
-          Гүн амьсгал аваад сэтгэлээ тайвшруулна уу.
-          <br className="hidden sm:block" />
-          1 минутын дараа дахин сонгох боломжтой.
-        </p>
 
         {/* Timer circle */}
         <div className="relative z-10 flex h-64 w-64 items-center justify-center sm:h-72 sm:w-72">
@@ -139,9 +133,6 @@ function LuscherTest({ onComplete }: { onComplete: (first: number[], second: num
           </div>
         </div>
 
-        <p className="relative z-10 max-w-sm text-center text-[11px] italic text-zinc-400 sm:text-xs">
-          &ldquo;Дараагийн сонголтыг шинэ сэтгэлээр хийхэд завсарлага туслана.&rdquo;
-        </p>
       </div>
     );
   }
