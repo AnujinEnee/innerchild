@@ -94,7 +94,7 @@ export default function ArticlePage() {
   const [article, setArticle] = useState<Article | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeHeading, setActiveHeading] = useState("");
-  const [reviewedMember, setReviewedMember] = useState<{ id: string; first_name: string; last_name: string; role: string; image_url: string | null; bio: string | null } | null>(null);
+  const [reviewedMember, setReviewedMember] = useState<{ id: string; first_name: string; last_name: string; role: string; image_url: string | null; bio: string | null; expertise: string | null } | null>(null);
   const [progress, setProgress] = useState(0);
   const [related, setRelated] = useState<{ id: string; title: string; category: string; image_url: string | null; published_date: string | null; published_at: string | null; created_at: string }[]>([]);
 
@@ -127,7 +127,7 @@ export default function ArticlePage() {
           if (parts.length >= 2) {
             const { data: member } = await supabase
               .from("team_members")
-              .select("id, first_name, last_name, role, image_url, bio")
+              .select("id, first_name, last_name, role, image_url, bio, expertise")
               .eq("last_name", parts[0])
               .eq("first_name", parts.slice(1).join(" "))
               .maybeSingle();
