@@ -34,7 +34,7 @@ function LoginContent() {
     setForgotLoading(true);
     setForgotMsg("");
     const { error } = await createClient().auth.resetPasswordForEmail(forgotEmail, {
-      redirectTo: `${window.location.origin}/login`,
+      redirectTo: `${window.location.origin}/reset-password`,
     });
     setForgotLoading(false);
     if (error) { setForgotMsg(error.message); return; }
