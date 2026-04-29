@@ -69,6 +69,7 @@ export default function TestsPage() {
   const [priceEditing, setPriceEditing] = useState<string | null>(null);
   const [priceInput, setPriceInput] = useState("");
   const [priceSaving, setPriceSaving] = useState(false);
+  const [activeView, setActiveView] = useState<"pricing" | "attempts">("pricing");
 
   const [form, setForm] = useState({
     title: "", description: "", category: "", duration_minutes: 10, active: true,
@@ -547,9 +548,31 @@ export default function TestsPage() {
         </div>
       )}
 
+      {/* View toggle buttons */}
+      <div className="mb-4 flex flex-wrap gap-2">
+        {([
+          { id: "pricing", label: "Тестийн үнэ тохируулах" },
+          { id: "attempts", label: "Тест өгсөн түүх" },
+        ] as const).map((tab) => (
+          <button
+            key={tab.id}
+            onClick={() => setActiveView(tab.id)}
+            className={`rounded-xl px-5 py-2.5 text-sm font-medium transition-colors ${
+              activeView === tab.id
+                ? "bg-purple-600 text-white shadow-sm"
+                : dark
+                  ? "bg-white/5 text-white/60 hover:bg-white/10"
+                  : "bg-white text-gray-600 shadow-sm hover:bg-gray-50"
+            }`}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
       {/* Registry Test Pricing */}
+      {activeView === "pricing" && (
       <div className="mb-6">
-        <h2 className={`mb-4 text-lg font-bold ${dark ? "text-white" : "text-gray-900"}`}>Тестийн үнэ тохируулах</h2>
         <div className={`overflow-hidden rounded-2xl ${dark ? "bg-white/5" : "bg-white shadow-sm"}`}>
           <table className="w-full text-sm">
             <thead>
@@ -627,10 +650,11 @@ export default function TestsPage() {
           </table>
         </div>
       </div>
+      )}
 
       {/* Test Attempts Log — sorted by date desc */}
+      {activeView === "attempts" && (
       <div className="mb-6">
-        <h2 className={`mb-4 text-lg font-bold ${dark ? "text-white" : "text-gray-900"}`}>Тест өгсөн түүх</h2>
         <div className={`overflow-hidden rounded-2xl ${dark ? "bg-white/5" : "bg-white shadow-sm"}`}>
           {testAttempts.length === 0 ? (
             <p className={`px-5 py-8 text-center text-sm ${dark ? "text-white/30" : "text-gray-400"}`}>Тест өгсөн бүртгэл алга</p>
@@ -679,6 +703,7 @@ export default function TestsPage() {
           )}
         </div>
       </div>
+      )}
 
       {/* Test Cards */}
       {loading ? (
