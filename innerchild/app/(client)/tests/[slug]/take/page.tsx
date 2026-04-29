@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useState, useEffect, useCallback } from "react";
+import { use, useState, useEffect, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Header from "@/components/Header";
@@ -75,12 +75,27 @@ const LUSCHER_COLORS = [
 ];
 
 const LUSCHER_BREAK_SECONDS = 60;
+const STAR_COLORS = ["#ec4899", "#a855f7", "#3b82f6", "#10b981", "#f59e0b"];
+
+interface Star {
+  id: number;
+  x: number; // 0-100 (%)
+  y: number; // 0-100 (%)
+  color: string;
+  size: number;
+  born: number;
+}
 
 function LuscherTest({ onComplete }: { onComplete: (first: number[], second: number[]) => void }) {
   const [stage, setStage] = useState<"round1" | "break" | "round2">("round1");
   const [firstSelection, setFirstSelection] = useState<number[]>([]);
   const [secondSelection, setSecondSelection] = useState<number[]>([]);
   const [breakSecondsLeft, setBreakSecondsLeft] = useState(LUSCHER_BREAK_SECONDS);
+
+  // Star-tap mini-game state for the break screen.
+  const [stars, setStars] = useState<Star[]>([]);
+  const [score, setScore] = useState(0);
+  const starIdRef = useRef(0);
 
   // Break timer between round 1 and round 2.
   useEffect(() => {
@@ -93,16 +108,90 @@ function LuscherTest({ onComplete }: { onComplete: (first: number[], second: num
     return () => clearTimeout(t);
   }, [stage, breakSecondsLeft]);
 
+  // Spawn new stars + cull old ones during the break.
+  useEffect(() => {
+    if (stage !== "break") return;
+    const spawn = setInterval(() => {
+      setStars((prev) => {
+        const now = Date.now();
+        // Drop stars older than 5s.
+        const live = prev.filter((s) => now - s.born < 5000);
+        if (live.length >= 6) return live;
+        return [
+          ...live,
+          {
+            id: ++starIdRef.current,
+            x: 5 + Math.random() * 90,
+            y: 5 + Math.random() * 90,
+            color: STAR_COLORS[Math.floor(Math.random() * STAR_COLORS.length)],
+            size: 18 + Math.random() * 14,
+            born: now,
+          },
+        ];
+      });
+    }, 600);
+    return () => clearInterval(spawn);
+  }, [stage]);
+
+  // Reset mini-game state every time we enter "break".
+  useEffect(() => {
+    if (stage === "break") {
+      setStars([]);
+      setScore(0);
+    }
+  }, [stage]);
+
+  function popStar(id: number) {
+    setStars((prev) => prev.filter((s) => s.id !== id));
+    setScore((s) => s + 1);
+  }
+
   if (stage === "break") {
     const pct = ((LUSCHER_BREAK_SECONDS - breakSecondsLeft) / LUSCHER_BREAK_SECONDS) * 100;
     return (
-      <div className="flex flex-col items-center gap-6 py-6">
-        <p className="text-center text-base font-semibold text-zinc-700 sm:text-lg">
+      <div className="relative flex flex-col items-center gap-6 py-6">
+        {/* Star-tap mini-game playground (positioned behind everything) */}
+        <div className="pointer-events-none absolute inset-0 z-0">
+          {stars.map((s) => {
+            const age = (Date.now() - s.born) / 5000; // 0..1
+            const opacity = age < 0.15 ? age / 0.15 : age > 0.7 ? Math.max(0, 1 - (age - 0.7) / 0.3) : 1;
+            return (
+              <button
+                key={s.id}
+                onClick={() => popStar(s.id)}
+                aria-label="одыг товш"
+                className="pointer-events-auto absolute -translate-x-1/2 -translate-y-1/2 transition-transform duration-200 hover:scale-150 active:scale-90"
+                style={{
+                  left: `${s.x}%`,
+                  top: `${s.y}%`,
+                  width: s.size,
+                  height: s.size,
+                  opacity,
+                  filter: `drop-shadow(0 0 6px ${s.color}80)`,
+                }}
+              >
+                <svg viewBox="0 0 24 24" fill={s.color} className="h-full w-full animate-pulse">
+                  <path d="M12 2l2.4 7.4H22l-6.2 4.5L18.2 22 12 17.3 5.8 22l2.4-8.1L2 9.4h7.6L12 2z" />
+                </svg>
+              </button>
+            );
+          })}
+        </div>
+
+        <p className="relative z-10 text-center text-base font-semibold text-zinc-700 sm:text-lg">
           1 минутын завсарлага
         </p>
-        <p className="max-w-md text-center text-sm text-zinc-500">
-          Сэтгэлээ тайвшруулж, дараагийн сонголтыг шинээр хийхэд бэлдэнэ үү.
+        <p className="relative z-10 max-w-md text-center text-sm text-zinc-500">
+          Одод дээр товшоод оноо цуглуулж, сэтгэлээ тайвшруулна уу.
         </p>
+
+        {/* Score badge */}
+        <div className="relative z-10 flex items-center gap-2 rounded-full bg-purple-100 px-4 py-1.5 text-xs font-semibold text-purple-700">
+          <svg viewBox="0 0 24 24" fill="currentColor" className="h-3.5 w-3.5">
+            <path d="M12 2l2.4 7.4H22l-6.2 4.5L18.2 22 12 17.3 5.8 22l2.4-8.1L2 9.4h7.6L12 2z" />
+          </svg>
+          {score} оноо
+        </div>
 
         {/* Timer circle */}
         <div className="relative z-10 flex h-64 w-64 items-center justify-center sm:h-72 sm:w-72">
