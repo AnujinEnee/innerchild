@@ -53,19 +53,23 @@ export default function TestsPage() {
   const [saving, setSaving] = useState(false);
   const [testPayments, setTestPayments] = useState<{ test_slug: string; amount: number; paid_at: string }[]>([]);
   const [testTakenCounts, setTestTakenCounts] = useState<Record<string, number>>({});
-  const [testAttempts, setTestAttempts] = useState<
-    {
-      id: string;
-      taken_at: string;
-      test_title: string;
-      test_category: string | null;
-      test_id: string;
-      slug: TestSlug | undefined;
-      user_name: string;
-      user_email: string | null;
-      level: string | null;
-    }[]
-  >([]);
+  type TestAttempt = {
+    id: string;
+    taken_at: string;
+    test_title: string;
+    test_category: string | null;
+    test_id: string;
+    slug: TestSlug | undefined;
+    user_name: string;
+    user_email: string | null;
+    level: string | null;
+    score: number | null;
+    max_score: number | null;
+    conclusion: string | null;
+    recommendation: string | null;
+  };
+  const [testAttempts, setTestAttempts] = useState<TestAttempt[]>([]);
+  const [viewAttempt, setViewAttempt] = useState<TestAttempt | null>(null);
   const [testPrices, setTestPrices] = useState<Record<string, number>>({});
   const [priceEditing, setPriceEditing] = useState<string | null>(null);
   const [priceInput, setPriceInput] = useState("");
@@ -130,17 +134,21 @@ export default function TestsPage() {
     const supabase = createClient();
     const { data } = await supabase
       .from("test_results")
-      .select("id, taken_at, test_id, level, users!client_id(last_name, first_name, email), tests!test_id(title, category)")
+      .select("id, taken_at, test_id, level, score, max_score, conclusion, recommendation, users!client_id(last_name, first_name, email), tests!test_id(title, category)")
       .order("taken_at", { ascending: false });
     type Row = {
       id: string;
       taken_at: string;
       test_id: string;
       level: string | null;
+      score: number | null;
+      max_score: number | null;
+      conclusion: string | null;
+      recommendation: string | null;
       users: { last_name: string; first_name: string; email: string | null } | null;
       tests: { title: string; category: string | null } | null;
     };
-    const rows = ((data ?? []) as unknown as Row[]).map((r) => {
+    const rows: TestAttempt[] = ((data ?? []) as unknown as Row[]).map((r) => {
       const slug = getSlugByDbTestId(r.test_id);
       const userName = r.users
         ? `${r.users.last_name} ${r.users.first_name}`.trim()
@@ -155,6 +163,10 @@ export default function TestsPage() {
         user_name: userName,
         user_email: r.users?.email ?? null,
         level: r.level ?? null,
+        score: r.score ?? null,
+        max_score: r.max_score ?? null,
+        conclusion: r.conclusion ?? null,
+        recommendation: r.recommendation ?? null,
       };
     });
     setTestAttempts(rows);
@@ -701,7 +713,14 @@ export default function TestsPage() {
                         <td className={`whitespace-nowrap px-5 py-3 ${dark ? "text-white/50" : "text-gray-500"}`}>
                           {new Date(a.taken_at).toLocaleString("mn-MN", { year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" })}
                         </td>
-                        <td className={`px-5 py-3 ${dark ? "text-white/70" : "text-gray-700"}`}>{a.level ?? "—"}</td>
+                        <td className="px-5 py-3">
+                          <button
+                            onClick={() => setViewAttempt(a)}
+                            className={`rounded-lg px-3 py-1 text-xs font-medium transition-colors ${dark ? "bg-purple-500/20 text-purple-300 hover:bg-purple-500/30" : "bg-purple-50 text-purple-700 hover:bg-purple-100"}`}
+                          >
+                            {a.level ?? "Харах"}
+                          </button>
+                        </td>
                       </tr>
                     );
                   })}
@@ -711,6 +730,73 @@ export default function TestsPage() {
           )}
         </div>
       </div>
+      )}
+
+      {/* Attempt Detail Modal */}
+      {viewAttempt && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4" onClick={() => setViewAttempt(null)}>
+          <div className={`w-full max-w-lg overflow-hidden rounded-2xl ${dark ? "bg-[#1e1e36]" : "bg-white"}`} onClick={(e) => e.stopPropagation()}>
+            <div className={`flex items-center justify-between border-b px-6 py-4 ${dark ? "border-white/10" : "border-gray-100"}`}>
+              <h3 className={`text-base font-bold ${dark ? "text-white" : "text-gray-900"}`}>Тестийн үр дүн</h3>
+              <button onClick={() => setViewAttempt(null)} className={dark ? "text-white/40 hover:text-white" : "text-gray-400 hover:text-gray-700"}>✕</button>
+            </div>
+            <div className="space-y-4 px-6 py-5">
+              <div>
+                <p className={`text-[10px] uppercase tracking-wider ${dark ? "text-white/30" : "text-gray-400"}`}>Тест</p>
+                <p className={`font-semibold ${dark ? "text-white" : "text-gray-900"}`}>{viewAttempt.test_title}</p>
+                {viewAttempt.test_category && (
+                  <p className={`text-xs ${dark ? "text-white/40" : "text-gray-500"}`}>{viewAttempt.test_category}</p>
+                )}
+              </div>
+              <div>
+                <p className={`text-[10px] uppercase tracking-wider ${dark ? "text-white/30" : "text-gray-400"}`}>Хэрэглэгч</p>
+                <p className={`font-medium ${dark ? "text-white/80" : "text-gray-800"}`}>{viewAttempt.user_name}</p>
+                {viewAttempt.user_email && (
+                  <p className={`text-xs ${dark ? "text-white/40" : "text-gray-500"}`}>{viewAttempt.user_email}</p>
+                )}
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <p className={`text-[10px] uppercase tracking-wider ${dark ? "text-white/30" : "text-gray-400"}`}>Огноо</p>
+                  <p className={`text-sm ${dark ? "text-white/70" : "text-gray-700"}`}>
+                    {new Date(viewAttempt.taken_at).toLocaleString("mn-MN", { year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" })}
+                  </p>
+                </div>
+                <div>
+                  <p className={`text-[10px] uppercase tracking-wider ${dark ? "text-white/30" : "text-gray-400"}`}>Оноо</p>
+                  <p className={`text-sm ${dark ? "text-white/70" : "text-gray-700"}`}>
+                    {viewAttempt.score ?? "—"}{viewAttempt.max_score ? ` / ${viewAttempt.max_score}` : ""}
+                  </p>
+                </div>
+              </div>
+              <div>
+                <p className={`text-[10px] uppercase tracking-wider ${dark ? "text-white/30" : "text-gray-400"}`}>Түвшин</p>
+                <p className={`font-semibold ${dark ? "text-purple-300" : "text-purple-700"}`}>{viewAttempt.level ?? "—"}</p>
+              </div>
+              {viewAttempt.conclusion && (
+                <div>
+                  <p className={`mb-1 text-[10px] uppercase tracking-wider ${dark ? "text-white/30" : "text-gray-400"}`}>Дүгнэлт</p>
+                  <p className={`whitespace-pre-wrap text-sm leading-relaxed ${dark ? "text-white/70" : "text-gray-600"}`}>
+                    {(() => {
+                      try {
+                        const parsed = JSON.parse(viewAttempt.conclusion);
+                        return JSON.stringify(parsed, null, 2);
+                      } catch {
+                        return viewAttempt.conclusion;
+                      }
+                    })()}
+                  </p>
+                </div>
+              )}
+              {viewAttempt.recommendation && (
+                <div>
+                  <p className={`mb-1 text-[10px] uppercase tracking-wider ${dark ? "text-white/30" : "text-gray-400"}`}>Зөвлөмж</p>
+                  <p className={`whitespace-pre-wrap text-sm leading-relaxed ${dark ? "text-white/70" : "text-gray-600"}`}>{viewAttempt.recommendation}</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Test Cards */}
