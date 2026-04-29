@@ -103,15 +103,15 @@ function LuscherTest({ onComplete }: { onComplete: (first: number[], second: num
         <p className="max-w-md text-center text-sm text-zinc-500">
           Сэтгэлээ тайвшруулж, дараагийн сонголтыг шинээр хийхэд бэлдэнэ үү.
         </p>
-        <div className="relative flex h-32 w-32 items-center justify-center">
+        <div className="relative flex h-64 w-64 items-center justify-center sm:h-72 sm:w-72">
           <svg className="absolute inset-0 -rotate-90" viewBox="0 0 100 100">
-            <circle cx="50" cy="50" r="45" stroke="#e5e7eb" strokeWidth="6" fill="none" />
+            <circle cx="50" cy="50" r="45" stroke="#e5e7eb" strokeWidth="4" fill="none" />
             <circle
               cx="50"
               cy="50"
               r="45"
               stroke="url(#luscher-grad)"
-              strokeWidth="6"
+              strokeWidth="4"
               fill="none"
               strokeDasharray={`${(pct / 100) * 283} 283`}
               strokeLinecap="round"
@@ -125,8 +125,8 @@ function LuscherTest({ onComplete }: { onComplete: (first: number[], second: num
             </defs>
           </svg>
           <div className="text-center">
-            <p className="text-3xl font-bold text-[#2d1b69]">{breakSecondsLeft}</p>
-            <p className="text-xs text-zinc-400">секунд</p>
+            <p className="text-7xl font-bold text-[#2d1b69] sm:text-8xl">{breakSecondsLeft}</p>
+            <p className="mt-2 text-sm text-zinc-400">секунд</p>
           </div>
         </div>
       </div>
