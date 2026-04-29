@@ -328,7 +328,7 @@ function NiitlelContent() {
                     <Link
                       key={article.id}
                       href={`/niitlel/${article.id}`}
-                      className="rounded-xl bg-[#f8f6fc] p-3 block hover:shadow-md transition-shadow sm:rounded-2xl sm:p-6"
+                      className="flex h-full flex-col rounded-xl bg-[#f8f6fc] p-3 transition-shadow hover:shadow-md sm:rounded-2xl sm:p-6"
                     >
                       {article.image_url && (
                         <div className="mb-3 aspect-[16/9] overflow-hidden rounded-lg bg-zinc-200 sm:mb-4 sm:rounded-xl">
@@ -345,7 +345,7 @@ function NiitlelContent() {
                       <h3 className="mb-1 text-sm font-bold leading-snug text-[#2d1b69] sm:mb-2 sm:text-base">
                         {article.title}
                       </h3>
-                      <p className="mb-3 line-clamp-2 text-xs leading-relaxed text-zinc-500 sm:mb-4 sm:line-clamp-3 sm:text-sm">
+                      <p className="mb-3 flex-1 line-clamp-4 text-xs leading-relaxed text-zinc-500 sm:mb-4 sm:line-clamp-5 sm:text-sm">
                         {article.content.replace(/<[^>]*>/g, "")}
                       </p>
                       <div className="flex items-center justify-between">
