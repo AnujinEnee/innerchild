@@ -178,7 +178,7 @@ function LuscherTest({ onComplete }: { onComplete: (first: number[], second: num
           })}
         </div>
 
-        <p className="relative z-10 text-center text-base font-semibold text-zinc-700 sm:text-lg">
+        <p className="relative z-10 text-center text-2xl font-bold text-zinc-700 sm:text-3xl md:text-4xl">
           1 минутын завсарлага
         </p>
         <p className="relative z-10 max-w-md text-center text-sm text-zinc-500">
