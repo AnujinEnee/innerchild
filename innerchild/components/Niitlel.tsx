@@ -229,23 +229,23 @@ export default function Niitlel() {
           </div>
 
           {/* Online Therapy CTA */}
-          <div className="rounded-2xl bg-[#2d1b69] p-4 text-center sm:p-5">
-            <h4 className="mb-2 text-base font-bold text-white sm:text-lg">
+          <div className="rounded-2xl bg-[#2d1b69] p-5 text-center sm:p-6">
+            <h4 className="mb-2 text-lg font-bold text-white sm:text-xl">
               Онлайн зөвлөгөө
             </h4>
-            <p className="mb-3 text-xs text-purple-200/70">
+            <p className="mb-4 text-xs text-purple-200/70 sm:text-sm">
               Гэрээсээ мэргэжлийн тусламж авах боломж.
             </p>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2.5">
               <Link
                 href="/team"
-                className="rounded-full bg-linear-to-r from-pink-500 to-purple-400 px-4 py-2 text-xs font-semibold text-white shadow-sm transition-opacity hover:opacity-90"
+                className="rounded-full bg-linear-to-r from-pink-500 to-purple-400 px-5 py-2.5 text-xs font-semibold text-white shadow-sm transition-opacity hover:opacity-90 sm:text-sm"
               >
                 Сэтгэл зүйчээ сонгох
               </Link>
               <Link
                 href="/privacy"
-                className="rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-white/20"
+                className="rounded-full border border-white/20 bg-white/10 px-5 py-2.5 text-xs font-semibold text-white transition-colors hover:bg-white/20 sm:text-sm"
               >
                 Нууцлалын бодлого
               </Link>
