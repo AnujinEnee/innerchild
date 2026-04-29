@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useTheme } from "../ThemeContext";
 import { createClient } from "@/lib/supabase/client";
-import { ALL_TESTS } from "@/lib/test-logics/registry";
+import { ALL_TESTS, getSlugByDbTestId } from "@/lib/test-logics/registry";
 import type { TestSlug } from "@/lib/test-logics/types";
 
 interface QuestionOption {
@@ -52,6 +52,7 @@ export default function TestsPage() {
   const [viewTest, setViewTest] = useState<Test | null>(null);
   const [saving, setSaving] = useState(false);
   const [testPayments, setTestPayments] = useState<{ test_slug: string; amount: number; paid_at: string }[]>([]);
+  const [testTakenCounts, setTestTakenCounts] = useState<Record<string, number>>({});
   const [testPrices, setTestPrices] = useState<Record<string, number>>({});
   const [priceEditing, setPriceEditing] = useState<string | null>(null);
   const [priceInput, setPriceInput] = useState("");
@@ -99,6 +100,18 @@ export default function TestsPage() {
     setTestPayments((data ?? []) as typeof testPayments);
   }
 
+  async function fetchTestTakenCounts() {
+    const supabase = createClient();
+    const { data } = await supabase.from("test_results").select("test_id");
+    const counts: Record<string, number> = {};
+    for (const row of (data ?? []) as { test_id: string }[]) {
+      const slug = getSlugByDbTestId(row.test_id);
+      if (!slug) continue;
+      counts[slug] = (counts[slug] ?? 0) + 1;
+    }
+    setTestTakenCounts(counts);
+  }
+
   async function fetchTestPrices() {
     try {
       const res = await fetch("/api/test-prices");
@@ -130,6 +143,8 @@ export default function TestsPage() {
     fetchTestPayments();
     // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchTestPrices();
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    fetchTestTakenCounts();
   }, []);
 
   function openNew() {
@@ -297,7 +312,7 @@ export default function TestsPage() {
           { label: "Нийт тест", value: String(tests.length), color: "from-purple-500 to-indigo-600" },
           { label: "Идэвхтэй", value: String(tests.filter((t) => t.active).length), color: "from-emerald-500 to-teal-600" },
           { label: "Нийт орлого", value: `${testPayments.reduce((s, t) => s + t.amount, 0).toLocaleString()}₮`, color: "from-amber-500 to-orange-600" },
-          { label: "Нийт тест өгсөн", value: `${testPayments.length} удаа`, color: "from-pink-500 to-rose-600" },
+          { label: "Нийт тест өгсөн", value: `${Object.values(testTakenCounts).reduce((s, n) => s + n, 0).toLocaleString()} удаа`, color: "from-pink-500 to-rose-600" },
         ].map((s) => (
           <div key={s.label} className={`relative overflow-hidden rounded-2xl p-5 ${dark ? "bg-white/5" : "bg-white shadow-sm"}`}>
             <div className={`absolute -right-3 -top-3 h-16 w-16 rounded-full bg-linear-to-br ${s.color} opacity-20 blur-xl`} />
@@ -496,6 +511,7 @@ export default function TestsPage() {
                 <th className={`px-5 py-3 text-left text-xs font-semibold ${dark ? "text-white/40" : "text-gray-500"}`}>Тест</th>
                 <th className={`px-5 py-3 text-left text-xs font-semibold ${dark ? "text-white/40" : "text-gray-500"}`}>Ангилал</th>
                 <th className={`px-5 py-3 text-left text-xs font-semibold ${dark ? "text-white/40" : "text-gray-500"}`}>Төрөл</th>
+                <th className={`px-5 py-3 text-right text-xs font-semibold ${dark ? "text-white/40" : "text-gray-500"}`}>Өгсөн</th>
                 <th className={`px-5 py-3 text-right text-xs font-semibold ${dark ? "text-white/40" : "text-gray-500"}`}>Үнэ</th>
                 <th className={`px-5 py-3 text-right text-xs font-semibold ${dark ? "text-white/40" : "text-gray-500"}`}></th>
               </tr>
@@ -513,6 +529,9 @@ export default function TestsPage() {
                       <span className={`rounded-full px-2.5 py-0.5 text-[10px] font-semibold ${currentPrice > 0 ? "bg-purple-100 text-purple-700" : "bg-green-100 text-green-700"}`}>
                         {currentPrice > 0 ? "Төлбөртэй" : "Үнэгүй"}
                       </span>
+                    </td>
+                    <td className={`px-5 py-3 text-right font-medium ${dark ? "text-white" : "text-gray-900"}`}>
+                      {(testTakenCounts[t.slug] ?? 0).toLocaleString()}
                     </td>
                     <td className="px-5 py-3 text-right">
                       {isEditing ? (
