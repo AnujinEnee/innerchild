@@ -342,12 +342,15 @@ function NiitlelContent() {
                       <p className="mb-1 text-[10px] font-bold tracking-normal text-[#f97316] sm:mb-2 sm:text-xs">
                         {article.subcategory ?? article.category}
                       </p>
-                      <h3 className="mb-1 line-clamp-2 text-sm font-bold leading-snug text-[#2d1b69] sm:mb-2 sm:text-base">
-                        {article.title}
-                      </h3>
-                      <p className="mb-3 flex-1 overflow-hidden text-xs leading-relaxed text-zinc-500 sm:mb-4 sm:text-sm">
-                        {article.content.replace(/<[^>]*>/g, "")}
-                      </p>
+                      {/* Fixed-height block (5 lines). Title takes 1-2 lines naturally; excerpt fills the rest, overflow hidden. */}
+                      <div className="mb-3 h-28 overflow-hidden sm:mb-4 sm:h-34">
+                        <h3 className="mb-1 line-clamp-2 text-sm font-bold leading-snug text-[#2d1b69] sm:mb-2 sm:text-base">
+                          {article.title}
+                        </h3>
+                        <p className="text-xs leading-relaxed text-zinc-500 sm:text-sm">
+                          {article.content.replace(/<[^>]*>/g, "")}
+                        </p>
+                      </div>
                       <div className="flex items-center justify-between">
                         <p className="text-xs text-zinc-900">{date}</p>
                         {author && (
