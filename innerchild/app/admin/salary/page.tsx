@@ -125,8 +125,8 @@ export default function SalaryPage() {
 
   // Бодит зөвлөгөөний орлого — consultations table-аас тооцоолно
   const realConsultIncome = selected ? calcConsultationIncome(selected.id, selYear, selMonth) : 0;
-  // Цалин = нийт зөвлөгөөний орлогын хувиар
-  const salaryPercent = 50;
+  // Цалин = нийт зөвлөгөөний орлогын хувиар. Хадгалсан bonus оноог уншиж байна; default 50%.
+  const salaryPercent = monthRecord?.bonus ?? 50;
   const salaryFromConsult = Math.round(realConsultIncome * (salaryPercent / 100));
 
   const totalSalary = salaryFromConsult;
