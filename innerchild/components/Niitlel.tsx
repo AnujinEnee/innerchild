@@ -74,14 +74,6 @@ function ArticleCard({ article, size }: { article: Article; size: "sm" | "md" })
           <span className="truncate">{authorOf(article)}</span>
           {authorOf(article) && dateOf(article) && <span>•</span>}
           <span>{dateOf(article)}</span>
-          <span>•</span>
-          <span className="flex items-center gap-1">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-3 w-3">
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-              <circle cx="12" cy="12" r="3" />
-            </svg>
-            {(article.view_count ?? 0).toLocaleString()}
-          </span>
         </div>
         {article.reviewed_by && (
           <p className="mt-0.5 text-[10px] italic text-gray-400 sm:text-[11px]">
@@ -91,6 +83,13 @@ function ArticleCard({ article, size }: { article: Article; size: "sm" | "md" })
         <p className={`mt-2 line-clamp-3 leading-relaxed text-gray-600 ${isMd ? "text-xs sm:text-sm" : "text-[11px] sm:text-xs"}`}>
           {excerptOf(article.content, isMd ? 180 : 120)}
         </p>
+        <div className="mt-3 flex items-center justify-end gap-1 text-[11px] text-gray-400 sm:text-xs">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-3 w-3">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+            <circle cx="12" cy="12" r="3" />
+          </svg>
+          {(article.view_count ?? 0).toLocaleString()} уншсан
+        </div>
       </div>
     </Link>
   );
