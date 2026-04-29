@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
+import { excerptOf } from "@/lib/text-utils";
 
 interface Article {
   id: string;
@@ -35,29 +36,6 @@ function dateOf(a: Article) {
   return formatDate(a.published_at ?? a.published_date ?? a.created_at);
 }
 
-function decodeEntities(s: string): string {
-  return s
-    .replace(/&nbsp;/g, " ")
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/&hellip;/g, "…")
-    .replace(/&mdash;/g, "—")
-    .replace(/&ndash;/g, "–")
-    .replace(/&#(\d+);/g, (_, n: string) => String.fromCharCode(parseInt(n, 10)));
-}
-
-function excerptOf(html: string | null | undefined, max = 160): string {
-  if (!html) return "";
-  // Strip HTML tags + decode entities, then collapse whitespace and truncate at a word boundary.
-  const plain = decodeEntities(html.replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ").trim();
-  if (plain.length <= max) return plain;
-  const cut = plain.slice(0, max);
-  const lastSpace = cut.lastIndexOf(" ");
-  return (lastSpace > 60 ? cut.slice(0, lastSpace) : cut).trimEnd() + "…";
-}
 
 function ArticleCard({ article, size }: { article: Article; size: "sm" | "md" }) {
   const isMd = size === "md";

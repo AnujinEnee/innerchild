@@ -7,6 +7,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { createClient } from "@/lib/supabase/client";
 import { ALL_TESTS } from "@/lib/test-logics/registry";
+import { stripHtml } from "@/lib/text-utils";
 
 interface UserArticle {
   id: string;
@@ -101,23 +102,6 @@ const contentData: Record<
     articles: [],
   },
 };
-
-function plainExcerpt(html: string): string {
-  return html
-    .replace(/<[^>]*>/g, " ")
-    .replace(/&nbsp;/g, " ")
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/&hellip;/g, "…")
-    .replace(/&mdash;/g, "—")
-    .replace(/&ndash;/g, "–")
-    .replace(/&#(\d+);/g, (_, n: string) => String.fromCharCode(parseInt(n, 10)))
-    .replace(/\s+/g, " ")
-    .trim();
-}
 
 function NiitlelContent() {
   const searchParams = useSearchParams();
@@ -365,7 +349,7 @@ function NiitlelContent() {
                           {article.title}
                         </h3>
                         <p className="text-xs leading-relaxed text-zinc-500 sm:text-sm">
-                          {plainExcerpt(article.content)}
+                          {stripHtml(article.content)}
                         </p>
                       </div>
                       <div className="flex items-center justify-between">
